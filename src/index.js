@@ -4,26 +4,9 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-const intervals = [
-  { label: 'Warmup', time: 5, reps: 1, type: 'prep' },
-  { label: 'Porco push ups', time: 10, reps: 1, type: 'exercise' },
-  { label: 'Break 1', time: 5, reps: 1, type: 'break' },
-  {
-    label: '3 Sets of Sit Ups',
-    time: 10,
-    reps: 3,
-    type: 'set',
-    steps: [
-      { label: 'Porco sit ups yeah man', time: 8, reps: 1, type: 'exercise' },
-      { label: 'Break 2', time: 3, reps: 1, type: 'break' }
-    ]
-  },
-  { label: 'Cooldown', time: 5, reps: 1, type: 'prep' }
-]
-
 ReactDOM.render(
   <React.StrictMode>
-    <App intervals={intervals}/>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 )

@@ -1,19 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class ExerciseLabel extends React.Component {
-  render () {
-    const interval = this.props.intervals[this.props.state.currentIntervalIndex]
-    let excerciseLabel = interval.label
+function ExerciseLabel (props) {
+  const interval = props.intervals[props.state.currentIntervalIndex]
+  let excerciseLabel = interval.label
 
-    if (interval.type === 'set') {
-      excerciseLabel = interval.steps[this.props.state.currentStepIndex].label
-    }
-
-    return (
-      <div>{excerciseLabel} ({this.props.state.currentIntervalRep}/{interval.reps})</div>
-    )
+  if (interval.type === 'set') {
+    excerciseLabel = interval.steps[props.state.currentStepIndex].label
   }
+
+  return (
+    <div>{excerciseLabel} ({props.state.currentIntervalRep}/{interval.reps})</div>
+  )
 }
 
 ExerciseLabel.propTypes = {

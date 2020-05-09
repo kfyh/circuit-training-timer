@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class StarStopButton extends React.Component {
-  render () {
-    const label = this.props.isRunning ? 'Stop' : 'Start'
-    return (
-      <button onClick={this.props.onClick}>
-        {label}
-      </button>
-    )
-  }
+function StarStopButton ({ isRunning, onClick }) {
+  const label = isRunning ? 'Stop' : 'Start'
+  return (
+    <button onClick={onClick}>
+      {label}
+    </button>
+  )
 }
 
 StarStopButton.propTypes = {
