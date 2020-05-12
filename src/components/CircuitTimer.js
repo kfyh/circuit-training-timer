@@ -34,6 +34,7 @@ class CircuitTimer extends React.Component {
       currentInterval = currentInterval.steps[this.state.currentStepIndex]
       currentRep = this.state.currentStepRep
     }
+
     return (
       <div>
         <ExerciseLabel interval={currentInterval} currentRep={currentRep} />
@@ -95,6 +96,7 @@ class CircuitTimer extends React.Component {
           endTime: 0,
           timeLeft: 0
         })
+        this.props.onComplete()
       } else {
         this.setState(result)
       }
@@ -107,7 +109,8 @@ class CircuitTimer extends React.Component {
 }
 
 CircuitTimer.propTypes = {
-  intervals: PropTypes.arrayOf(PropTypes.object)
+  intervals: PropTypes.arrayOf(PropTypes.object),
+  onComplete: PropTypes.func
 }
 
 export default CircuitTimer
