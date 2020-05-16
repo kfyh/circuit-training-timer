@@ -9,24 +9,18 @@ class App extends React.Component {
     super(props)
 
     this.intervals = [
-      { label: 'Warmup', time: 5, reps: 1, type: 'prep' },
+      { label: 'Burpies', time: 5, reps: 3, type: 'exercise' },
       {
-        label: '3 Sets of Sit Ups',
+        label: 'Finger Training',
         time: 10,
-        reps: 3,
+        reps: 7,
         type: 'set',
         steps: [
-          { label: 'Import Pandas', time: 8, reps: 1, type: 'exercise' },
-          { label: 'Break - You\'ve done a great job', time: 3, reps: 1, type: 'break' },
-          { label: 'Watch them tumble', time: 8, reps: 1, type: 'exercise' },
-          { label: 'Break - You\'ve done a great job', time: 3, reps: 1, type: 'break' },
-          { label: 'Porco eagle pose', time: 8, reps: 1, type: 'exercise' },
-          { label: 'Break - You\'ve done a great job', time: 3, reps: 1, type: 'break' },
-          { label: 'Porco pull ups yeah man', time: 8, reps: 1, type: 'exercise' },
-          { label: 'Break - You\'ve done a great job', time: 3, reps: 1, type: 'break' }
+          { label: 'Hang for 7 secs', time: 60, reps: 1, type: 'exercise' },
+          { label: 'Break and Recover', time: 240, reps: 1, type: 'break' }
         ]
       },
-      { label: 'Cooldown', time: 5, reps: 1, type: 'prep' }
+      { label: 'Finished', time: 5, reps: 1, type: 'prep' }
     ]
     this.state = {
       selectionScreen: true
@@ -55,13 +49,13 @@ class App extends React.Component {
   onSelectionMade = () => {
     this.setState({
       selectionScreen: false
-    });
+    })
   }
 
   onComplete = () => {
     this.setState({
       selectionScreen: true
-    });
+    })
   }
 }
 
