@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function TimeLabel ({ time }) {
+export function TimeLabel ({ time }) {
   const divStyle = {
     color: 'blue',
     fontSize: '250pt'
-  };
+  }
 
   let displayTime = Math.ceil(Math.max(0, time / 1000))
   if (displayTime > 60) {
@@ -23,5 +23,3 @@ function TimeLabel ({ time }) {
 TimeLabel.propTypes = {
   time: PropTypes.number
 }
-
-export default TimeLabel

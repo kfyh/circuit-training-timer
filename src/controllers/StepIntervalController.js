@@ -1,11 +1,11 @@
-class StepIntervalController {
-  constructor (step) {
-    this.step = step
+export class StepIntervalController {
+  constructor (interval) {
+    this.interval = interval
     this.isRunning = false
   }
 
   start = (currentTime) => {
-    this.timeLeft = this.step.time * 1000
+    this.timeLeft = this.interval.time * 1000
     this.endTime = currentTime + this.timeLeft
     this.isRunning = true
     this.reps = 1
@@ -24,9 +24,9 @@ class StepIntervalController {
     const endTime = this.endTime
     let isComplete = false
     if (endTime - currentTime <= 0) {
-      if (this.reps < this.step.reps) {
+      if (this.reps < this.interval.reps) {
         this.reps++
-        this.timeLeft = this.step.time * 1000
+        this.timeLeft = this.interval.time * 1000
         this.endTime = currentTime + this.timeLeft
       } else {
         isComplete = true
@@ -45,5 +45,3 @@ class StepIntervalController {
     }
   }
 }
-
-export default StepIntervalController

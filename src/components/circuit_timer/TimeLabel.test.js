@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import TimeLabel from './TimeLabel'
+import { TimeLabel } from './TimeLabel'
 
 describe('Given TimeLabel', () => {
   const testValues = [

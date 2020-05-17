@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import StartStopButton from './StartStopButton'
+import { StartStopButton } from './StartStopButton'
 
 describe('Given StartStopButton', () => {
   const testValues = [

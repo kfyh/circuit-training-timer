@@ -16,8 +16,8 @@ class App extends React.Component {
         reps: 7,
         type: 'set',
         steps: [
-          { label: 'Hang for 7 secs', time: 60, reps: 1, type: 'exercise' },
-          { label: 'Break and Recover', time: 240, reps: 1, type: 'break' }
+          { label: 'Hang for 7 secs', time: 7, reps: 1, type: 'exercise' },
+          { label: 'Break and Recover', time: 3, reps: 1, type: 'break' }
         ]
       },
       { label: 'Finished', time: 5, reps: 1, type: 'prep' }

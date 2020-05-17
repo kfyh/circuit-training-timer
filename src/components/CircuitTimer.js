@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TimeLabel from './TimeLabel'
-import StartStopButton from './StartStopButton'
-import ExerciseLabel from './ExerciseLabel'
-import StepIntervalController from '../controllers/StepIntervalController'
+import { StartStopButton, TimeLabel, ExerciseLabel } from './circuit_timer'
+import { StepIntervalController, SetIntervalController } from '../controllers'
 
 class CircuitTimer extends React.Component {
   constructor (props) {
@@ -31,10 +29,10 @@ class CircuitTimer extends React.Component {
   render () {
     let currentInterval = this.props.intervals[this.state.currentIntervalIndex]
     let currentRep = this.state.currentIntervalRep
-    // if (currentInterval.type === 'set') {
-    //   currentInterval = currentInterval.steps[this.state.currentStepIndex]
-    //   currentRep = this.state.currentStepRep
-    // }
+    if (currentInterval.type === 'set') {
+      currentInterval = currentInterval.steps[this.state.currentStepIndex]
+      currentRep = this.state.currentStepRep
+    }
 
     return (
       <div>
@@ -61,7 +59,11 @@ class CircuitTimer extends React.Component {
     let timeLeft = this.state.timeLeft
     if (controller === null) {
       const interval = this.props.intervals[this.state.currentIntervalIndex]
-      controller = new StepIntervalController(interval)
+      if (interval.type === 'set') {
+        controller = new SetIntervalController(interval)
+      } else {
+        controller = new StepIntervalController(interval)
+      }
       controller.start(Date.now())
       timeLeft = controller.timeLeft
     } else {
@@ -107,7 +109,12 @@ class CircuitTimer extends React.Component {
         this.props.onComplete()
       } else {
         const nextInterval = this.props.intervals[currentIntervalIndex]
-        const nextController = new StepIntervalController(nextInterval)
+        let nextController
+        if (nextInterval.type === 'set') {
+          nextController = new SetIntervalController(nextInterval)
+        } else {
+          nextController = new StepIntervalController(nextInterval)
+        }
         nextController.start(Date.now())
         this.setState({
           controller: nextController,
@@ -120,7 +127,8 @@ class CircuitTimer extends React.Component {
     } else {
       this.setState({
         timeLeft: values.timeLeft,
-        currentIntervalRep: values.reps
+        currentIntervalRep: values.reps,
+        currentStepIndex: values.currentStepIndex ? values.currentStepIndex : 0
       })
     }
   }

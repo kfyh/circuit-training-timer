@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import ExerciseLabel from './ExerciseLabel'
+import { ExerciseLabel } from './ExerciseLabel'
 
 describe('Given ExerciseLabel', () => {
   const testValues = [

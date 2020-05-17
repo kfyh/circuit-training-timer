@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function StarStopButton ({ isRunning, onClick }) {
+export function StartStopButton ({ isRunning, onClick }) {
   const label = isRunning ? 'Stop' : 'Start'
   return (
     <button onClick={onClick}>
@@ -10,9 +10,7 @@ function StarStopButton ({ isRunning, onClick }) {
   )
 }
 
-StarStopButton.propTypes = {
+StartStopButton.propTypes = {
   isRunning: PropTypes.bool,
   onClick: PropTypes.func
 }
-
-export default StarStopButton
