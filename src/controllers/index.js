@@ -1,2 +1,2 @@
-export * from './SetIntervalController.js'
-export * from './StepIntervalController.js'
+export * from './SetIntervalController.js';
+export * from './StepIntervalController.js';
