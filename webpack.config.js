@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const isProduction = !!(process.env.NODE_ENV === 'production');
 
@@ -39,21 +41,36 @@ module.exports = {
 	resolve: { extensions: ['*', '.js', '.jsx', '.ts', '.tsx'] },
 	output: {
 		path: path.resolve(__dirname, 'output/'),
-		publicPath: '/output/',
+		publicPath: '/',
 		filename: 'bundle.js',
 	},
 	devServer: {
-		contentBase: path.join(__dirname, 'public/'),
+		contentBase: path.join(__dirname, 'output/'),
 		port: 3000,
-		publicPath: 'http://localhost:3000/output/',
+		publicPath: 'http://localhost:3000/',
 		hot: true,
-	},
-	externals: {
-		react: 'React',
-		'react-dom': 'ReactDOM',
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new MiniCssExtractPlugin()
+		new MiniCssExtractPlugin(),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: 'html-template',
+					to: '.',
+					transform: (fileContent, path) => {
+						const jsonPattern = /\.json$/gi;
+						if (jsonPattern.test(path)) {
+							return JSON.stringify(JSON.parse(fileContent.toString()));
+						}
+						return fileContent;
+					},
+				}
+			]
+		}),
+		new HTMLWebpackPlugin({
+			filename: 'index.html',
+			template: 'src/index.html',
+		}),
 	],
 };

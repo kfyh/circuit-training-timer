@@ -1,10 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { StartStopButton, TimeLabel, ExerciseLabel } from './circuit_timer';
+import React, { ReactElement } from 'react';
+import { connect } from 'react-redux';
+import { StartStopButton, TimeLabel, ExerciseLabel } from './timer';
 import { StepIntervalController, SetIntervalController } from '../controllers';
 
-class CircuitTimer extends React.Component {
-	constructor(props) {
+type CircuitTimerProps = {
+	intervals: Array<object>;
+};
+
+type CircuitTimerState = {
+	controller: any;
+	currentIntervalIndex: number;
+	currentIntervalRep: number;
+	currentStepIndex: number;
+	currentStepRep: number;
+	isRunning: boolean;
+	endTime: number;
+	timeLeft: number;
+}
+export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTimerState> {
+	private timer = NaN;
+
+	constructor(props: CircuitTimerProps) {
 		super(props);
 
 		this.state = {
@@ -19,13 +35,11 @@ class CircuitTimer extends React.Component {
 		};
 	}
 
-	componentDidMount() {}
-
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		this.stopTimer();
 	}
 
-	render() {
+	public render(): ReactElement {
 		let currentInterval = this.props.intervals[this.state.currentIntervalIndex];
 		const currentRep = this.state.currentIntervalRep;
 		if (currentInterval.type === 'set') {
@@ -41,7 +55,7 @@ class CircuitTimer extends React.Component {
 		);
 	}
 
-	handleClick = () => {
+	private handleClick = (): void => {
 		if (this.state.isRunning) {
 			this.stopTimer();
 		} else {
@@ -49,7 +63,7 @@ class CircuitTimer extends React.Component {
 		}
 	};
 
-	startTimer = () => {
+	private startTimer = (): void => {
 		if (this.state.isRunning) {
 			return;
 		}
@@ -78,7 +92,7 @@ class CircuitTimer extends React.Component {
 		this.timer = setInterval(this.update, 100);
 	};
 
-	stopTimer = () => {
+	private stopTimer = (): void => {
 		if (this.state.isRunning) {
 			this.setState({
 				isRunning: false,
@@ -88,7 +102,7 @@ class CircuitTimer extends React.Component {
 		}
 	};
 
-	update = () => {
+	private update = (): void => {
 		const values = this.state.controller.update(Date.now());
 		if (values.isComplete) {
 			const currentIntervalIndex = this.state.currentIntervalIndex + 1;
@@ -106,7 +120,7 @@ class CircuitTimer extends React.Component {
 		}
 	};
 
-	endTimer = () => {
+	private endTimer = (): void => {
 		clearInterval(this.timer);
 		this.setState({
 			controller: null,
@@ -118,7 +132,7 @@ class CircuitTimer extends React.Component {
 			endTime: 0,
 			timeLeft: 0,
 		});
-		this.props.onComplete();
+		this.props.history.push('/');
 	};
 
 	setNextInterval = (interval) => {
@@ -140,9 +154,10 @@ class CircuitTimer extends React.Component {
 	};
 }
 
-CircuitTimer.propTypes = {
-	intervals: PropTypes.arrayOf(PropTypes.object),
-	onComplete: PropTypes.func,
+const mapStateToProps = (state) => {
+	return {
+		intervals: state.currentCircuit,
+	};
 };
 
-export default CircuitTimer;
+export const ConnectedCircuitTimer = connect(mapStateToProps)(CircuitTimer);

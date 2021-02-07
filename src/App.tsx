@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import './App.css';
-import CircuitTimer from './components/CircuitTimer';
-import Selector from './components/Selector';
+import { NavLink } from 'react-router-dom';
+import { Selector, CircuitTimer } from './components/index';
+import { History } from 'history';
 
-interface PropsType {
-	intervals: Array<object>
-}
+type AppProps = {
+	history: History;
+};
+type AppState = {
+	selectionScreen: boolean;
+};
 
-class App extends React.Component<PropTypes, {}> {
+export class App extends React.Component<AppProps, AppState> {
 	private intervals: object[];
 
-	constructor(props: object) {
+	constructor(props: AppProps) {
 		super(props);
 
 		this.intervals = [
@@ -32,36 +36,20 @@ class App extends React.Component<PropTypes, {}> {
 		};
 	}
 
-	public readonly RenderScreen = (selectionScreen): React.Component => {
-		let screen;
-		if (selectionScreen) {
-			screen = <Selector onClick={this.onSelectionMade} />;
-		} else {
-			screen = <CircuitTimer intervals={this.intervals} onComplete={this.onComplete} />;
-		}
-		return screen;
-	};
-
-	public  render(): React.Element {
+	public render(): ReactElement {
 		return (
 			<div className="App">
 				<div>Circuit Trainer Timer</div>
-				{this.RenderScreen(this.state.selectionScreen)}
+				<div>
+					<NavLink to="/select" exact={true}>
+						Select Training
+					</NavLink>
+					<br/>
+					<NavLink to="/timer" exact={true}>
+						Start
+					</NavLink>
+				</div>
 			</div>
 		);
 	}
-
-	private onSelectionMade = () => {
-		this.setState({
-			selectionScreen: false,
-		});
-	};
-
-	private onComplete = () => {
-		this.setState({
-			selectionScreen: true,
-		});
-	};
 }
-
-export default App;

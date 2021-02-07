@@ -29,7 +29,7 @@ module.exports = {
   ],
   "rules": {
     "@typescript-eslint/interface-name-prefix": [
-        "error", {
+        "warn", {
             "prefixWithI": "always"
         }
     ],
