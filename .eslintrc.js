@@ -25,14 +25,11 @@ module.exports = {
     'typescript',
     '@typescript-eslint',
     'jest',
-    'react'
+    'react',
+    'prettier'
   ],
   "rules": {
-    "@typescript-eslint/interface-name-prefix": [
-        "warn", {
-            "prefixWithI": "always"
-        }
-    ],
+    "prettier/prettier": "error",
     "@typescript-eslint/explicit-member-accessibility": [
         "error",
         {

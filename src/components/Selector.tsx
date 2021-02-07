@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
+import { History } from 'history';
 
-export function Selector({ history }) {
+type SelectorProps = {
+	history: History;
+};
+
+export function Selector({ history }: SelectorProps): ReactElement {
 	return (
 		<div>
 			<div>Please Select a Circuit</div>

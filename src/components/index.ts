@@ -1,4 +1,4 @@
-import CircuitTimer from "./CircuitTimer";
+import CircuitTimer from './CircuitTimer';
 
 export * from './CircuitTimer';
 export * from './Selector';

@@ -1,4 +1,22 @@
+import { StepCircuit } from '../types/circuits';
+
+export enum ACTION_TYPES {
+	ADD_CIRCUIT = 'ADD_CIRCUIT',
+	SELECT_CIRCUIT = 'SELECT_CIRCUIT',
+}
+
+export interface ISelectorAction {
+	type: ACTION_TYPES;
+	circuit: StepCircuit;
+}
+
+export interface ISelectorReducerState {
+	circuits: Array<StepCircuit>;
+	currentCircuit: StepCircuit;
+}
+
 const selectorReducerDefaultState = {
+	circuits: [],
 	currentCircuit: [
 		{ label: 'Burpies', time: 5, reps: 3, type: 'exercise' },
 		{
@@ -15,6 +33,20 @@ const selectorReducerDefaultState = {
 	],
 };
 
-export const selectorReducer = (state = selectorReducerDefaultState, action) => {
-	return state;
+export const selectorReducer = (state: ISelectorReducerState = selectorReducerDefaultState, action: ISelectorAction): ISelectorReducerState => {
+	switch (action.type) {
+		case ACTION_TYPES.ADD_CIRCUIT:
+			const circuits = [...state.circuits, action.circuit];
+			return {
+				...state,
+				circuits,
+			};
+		case ACTION_TYPES.SELECT_CIRCUIT:
+			return {
+				...state,
+				currentCircuit: action.circuit,
+			};
+		default:
+			return state;
+	}
 };

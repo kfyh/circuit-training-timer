@@ -2,9 +2,13 @@ import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { StartStopButton, TimeLabel, ExerciseLabel } from './timer';
 import { StepIntervalController, SetIntervalController } from '../controllers';
+import { History } from 'history';
+import { StepCircuit } from 'src/types/circuits';
+import { ISelectorReducerState } from 'src/reducers';
 
 type CircuitTimerProps = {
-	intervals: Array<object>;
+	intervals: StepCircuit;
+	history: History;
 };
 
 type CircuitTimerState = {
@@ -16,7 +20,7 @@ type CircuitTimerState = {
 	isRunning: boolean;
 	endTime: number;
 	timeLeft: number;
-}
+};
 export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTimerState> {
 	private timer = NaN;
 
@@ -135,7 +139,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 		this.props.history.push('/');
 	};
 
-	setNextInterval = (interval) => {
+	private setNextInterval = (interval: number): void => {
 		const nextInterval = this.props.intervals[interval];
 		let nextController;
 		if (nextInterval.type === 'set') {
@@ -154,7 +158,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 	};
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: ISelectorReducerState) => {
 	return {
 		intervals: state.currentCircuit,
 	};
