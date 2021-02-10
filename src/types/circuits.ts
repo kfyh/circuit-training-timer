@@ -8,6 +8,18 @@ export type StepType = {
 
 export type StepCircuit = Array<StepType>;
 
+export type FlattenedStepCircuit = Array<{
+	id: string;
+	label: string;
+	time: number;
+	repIndex: number;
+	repTotal: number;
+	type: string;
+	parentId?: string;
+	parentLabel?: string;
+	parentType?: string;
+}>;
+
 export type ExerciseType = {
 	id: string;
 	name: string;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given TimeLabel When render with time -1 then show 0 sec 1`] = `ShallowWrapper {}`;
+
+exports[`Given TimeLabel When render with time 0 then show 0 sec 1`] = `ShallowWrapper {}`;
+
+exports[`Given TimeLabel When render with time 1000 then show 1 sec 1`] = `ShallowWrapper {}`;
+
+exports[`Given TimeLabel When render with time 1499 then show 2 sec 1`] = `ShallowWrapper {}`;
+
+exports[`Given TimeLabel When render with time 100000 then show 0 sec 1`] = `ShallowWrapper {}`;

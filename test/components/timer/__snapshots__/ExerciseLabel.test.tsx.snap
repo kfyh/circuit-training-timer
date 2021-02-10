@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given ExerciseLabel When interval is { label: 'Hello', reps: 3 }, rep is 1 then label is Hello (1/3) 1`] = `ShallowWrapper {}`;
+
+exports[`Given ExerciseLabel When interval is { label: 'Push Ups', reps: 1 }, rep is 1 then label is Push Ups (1/1) 1`] = `ShallowWrapper {}`;

@@ -1,17 +1,13 @@
 import React, { ReactElement } from 'react';
 import './App.css';
 import { NavLink } from 'react-router-dom';
-import { History } from 'history';
 
-type AppProps = {
-	history: History;
-};
 type AppState = {
 	selectionScreen: boolean;
 };
 
-export class App extends React.Component<AppProps, AppState> {
-	constructor(props: AppProps) {
+export class App extends React.Component<Record<string, unknown>, AppState> {
+	constructor(props: Record<string, unknown>) {
 		super(props);
 		this.state = {
 			selectionScreen: true,

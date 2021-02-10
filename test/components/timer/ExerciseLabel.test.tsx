@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { ExerciseLabel } from './ExerciseLabel';
+import { shallow } from 'enzyme';
+import { ExerciseLabel } from '../../../src/components/timer/ExerciseLabel';
 
 describe('Given ExerciseLabel', () => {
 	const testValues = [
@@ -9,8 +9,7 @@ describe('Given ExerciseLabel', () => {
 	];
 
 	test.each(testValues)('When interval is %o, rep is %i then label is %s', (interval, currentRep, expected) => {
-		const { getByText } = render(<ExerciseLabel interval={interval} currentRep={currentRep} />);
-		const timeElement = getByText(expected);
-		expect(timeElement).toBeInTheDocument();
+		const render = shallow(<ExerciseLabel interval={interval} currentRep={currentRep} />);
+		expect(render).toMatchSnapshot();
 	});
 });

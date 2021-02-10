@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`When loading then title is Circuit Trainer Timer 1`] = `ShallowWrapper {}`;
