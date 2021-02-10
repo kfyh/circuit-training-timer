@@ -18,6 +18,8 @@ export type FlattenedStepCircuit = Array<{
 	parentId?: string;
 	parentLabel?: string;
 	parentType?: string;
+	parentRepIndex?: number;
+	parentRepTotal?: number;
 }>;
 
 export type ExerciseType = {
