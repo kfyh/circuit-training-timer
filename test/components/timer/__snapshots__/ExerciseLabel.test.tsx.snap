@@ -1,5 +1,90 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Given ExerciseLabel When interval is {
+  id: '0',
+  label: 'Burpies',
+  time: 60,
+  repIndex: 1,
+  repTotal: 3,
+  type: 'exercise'
+}, rep is 1 then label is Burpies (1/3) 1`] = `
+<div>
+  <p>
+    Burpies
+     (
+    1
+    /
+    3
+    )
+  </p>
+</div>
+`;
+
+exports[`Given ExerciseLabel When interval is {
+  id: Anything {
+    sample: undefined,
+    '$$typeof': Symbol(jest.asymmetricMatcher),
+    inverse: undefined
+  },
+  label: 'Hang for 7 secs',
+  time: 7,
+  repIndex: 1,
+  repTotal: 1,
+  type: 'exercise',
+  parentId: Anything {
+    sample: undefined,
+    '$$typeof': Symbol(jest.asymmetricMatcher),
+    inverse: undefined
+  },
+  parentLabel: 'Finger Training',
+  parentType: 'set',
+  parentRepIndex: 2,
+  parentRepTotal: 5
+}, rep is 1 then label is  1`] = `
+<div>
+  <p>
+    Finger Training
+     (
+    2
+    /
+    5
+    )
+  </p>
+  <p>
+    Hang for 7 secs
+     (
+    1
+    /
+    1
+    )
+  </p>
+</div>
+`;
+
+exports[`Given ExerciseLabel When interval is {
+  id: Anything {
+    sample: undefined,
+    '$$typeof': Symbol(jest.asymmetricMatcher),
+    inverse: undefined
+  },
+  label: 'Push Ups',
+  time: 60,
+  repIndex: 2,
+  repTotal: 5,
+  type: 'exercise'
+}, rep is 1 then label is Push Ups (2/5) 1`] = `
+<div>
+  <p>
+    Push Ups
+     (
+    2
+    /
+    5
+    )
+  </p>
+</div>
+`;
+
 exports[`Given ExerciseLabel When interval is { id:
    Anything {
      sample: undefined,

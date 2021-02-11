@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { StartStopButton, TimeLabel, ExerciseLabel } from './timer';
 import { FlattenedStepsController } from '../controllers';
 import { History } from 'history';
-import { FlattenedStep, FlattenedStepCircuit, StepCircuit } from '../types/circuits';
+import { FlattenedStep, FlattenedStepCircuit } from '../types/circuits';
 import { ISelectorReducerState } from '../reducers/selectorReducer';
 import { flattenSteps } from '../transforms/flattenTransform';
 
@@ -66,16 +66,14 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 		const controller = this.controller;
 		let timeLeft = this.state.timeLeft;
 		if (this.state.hasStarted) {
-			controller.start(Date.now());
-			timeLeft = controller.timeLeft; //XXX
+			timeLeft = controller.start(Date.now());
 			this.setState(
 				(state: CircuitTimerState): CircuitTimerState => {
 					return { ...state, hasStarted: true };
 				}
 			);
 		} else {
-			controller.resume(Date.now());
-			timeLeft = controller.timeLeft;
+			timeLeft = controller.resume(Date.now());
 		}
 
 		this.setState({
@@ -126,7 +124,6 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 
 const mapStateToProps = (state: ISelectorReducerState) => {
 	return {
-		intervals: state.currentCircuit,
 		flattenedSteps: flattenSteps(state.currentCircuit),
 	};
 };
