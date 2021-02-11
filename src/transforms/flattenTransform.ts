@@ -1,4 +1,4 @@
-import { FlattenedStepCircuit, StepCircuit, StepType } from '../types/circuits';
+import { FlattenedStepCircuit, StepCircuit, Step } from '../types/circuits';
 
 export const flattenSteps = (steps: StepCircuit): FlattenedStepCircuit => {
 	const result: FlattenedStepCircuit = [];
@@ -17,7 +17,7 @@ export const flattenSteps = (steps: StepCircuit): FlattenedStepCircuit => {
 	return result;
 };
 
-const addChildSteps = (step: StepType, id: string): FlattenedStepCircuit => {
+const addChildSteps = (step: Step, id: string): FlattenedStepCircuit => {
 	const result: FlattenedStepCircuit = [];
 	for (let i = 1; i <= step.reps; i++) {
 		const length = step.steps!.length;

@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Given StartStopButton When isRunning is %b then button label is false 1`] = `ShallowWrapper {}`;
+exports[`Given StartStopButton When isRunning is %b then button label is false 1`] = `
+<button>
+  Start
+</button>
+`;
 
-exports[`Given StartStopButton When isRunning is %b then button label is true 1`] = `ShallowWrapper {}`;
+exports[`Given StartStopButton When isRunning is %b then button label is true 1`] = `
+<button>
+  Stop
+</button>
+`;

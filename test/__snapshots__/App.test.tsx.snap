@@ -1,3 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`When loading then title is Circuit Trainer Timer 1`] = `ShallowWrapper {}`;
+exports[`When loading then title is Circuit Trainer Timer 1`] = `
+<div
+  className="App"
+>
+  <div>
+    Circuit Trainer Timer
+  </div>
+  <div>
+    <NavLink
+      exact={true}
+      to="/select"
+    >
+      Select Training
+    </NavLink>
+    <br />
+    <NavLink
+      exact={true}
+      to="/timer"
+    >
+      Start
+    </NavLink>
+  </div>
+</div>
+`;

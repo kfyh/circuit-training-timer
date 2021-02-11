@@ -1,14 +1,22 @@
-export type StepType = {
+export type Step = {
 	label: string;
 	time: number;
 	reps: number;
 	type: string;
-	steps?: Array<StepType>;
+	steps?: Array<Step>;
 };
 
-export type StepCircuit = Array<StepType>;
+export type StepCircuit = Array<Step>;
 
-export type FlattenedStepCircuit = Array<{
+export const NullStep = {
+	label: 'null',
+	time: 0,
+	reps: 0,
+	type: 'null',
+	steps: undefined,
+};
+
+export type FlattenedStep = {
 	id: string;
 	label: string;
 	time: number;
@@ -20,15 +28,31 @@ export type FlattenedStepCircuit = Array<{
 	parentType?: string;
 	parentRepIndex?: number;
 	parentRepTotal?: number;
-}>;
+};
 
-export type ExerciseType = {
+export type FlattenedStepCircuit = Array<FlattenedStep>;
+
+export const NullFlattenedStep = {
+	id: '',
+	label: 'null',
+	time: 0,
+	repIndex: 0,
+	repTotal: 0,
+	type: 'null',
+	parentId: undefined,
+	parentLabel: undefined,
+	parentType: undefined,
+	parentRepIndex: undefined,
+	parentRepTotal: undefined,
+};
+
+export type Exercise = {
 	id: string;
 	name: string;
 	description?: string;
 };
 
-export type ExerciseGroupType = {
+export type ExerciseGroup = {
 	id: string;
 	name: string;
 	exercises: Array<{
@@ -39,7 +63,7 @@ export type ExerciseGroupType = {
 	repetitions: number;
 };
 
-export type CircuitType = {
+export type Circuit = {
 	id: string;
 	name: string;
 	exerciseGroups: Array<{

@@ -10,6 +10,7 @@ module.exports = {
 		'\\.(css|less)$': '<rootDir>/test/__mocks__/styleMock.js',
 	},
 	setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+	snapshotSerializers: ['enzyme-to-json/serializer'],
 	// Automatically clear mock calls and instances between every test
 	clearMocks: false,
 	// Indicates whether the coverage information should be collected while executing the test

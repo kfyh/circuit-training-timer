@@ -1,38 +1,34 @@
 import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { StartStopButton, TimeLabel, ExerciseLabel } from './timer';
-import { StepIntervalController, SetIntervalController } from '../controllers';
+import { FlattenedStepsController } from '../controllers';
 import { History } from 'history';
-import { StepCircuit } from 'src/types/circuits';
-import { ISelectorReducerState } from 'src/reducers';
+import { FlattenedStep, FlattenedStepCircuit, StepCircuit } from '../types/circuits';
+import { ISelectorReducerState } from '../reducers/selectorReducer';
+import { flattenSteps } from '../transforms/flattenTransform';
 
 type CircuitTimerProps = {
-	intervals: StepCircuit;
+	flattenedSteps: FlattenedStepCircuit;
 	history: History;
 };
 
 type CircuitTimerState = {
-	controller: any;
-	currentIntervalIndex: number;
-	currentIntervalRep: number;
 	currentStepIndex: number;
-	currentStepRep: number;
+	hasStarted: boolean;
 	isRunning: boolean;
 	endTime: number;
 	timeLeft: number;
 };
 export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTimerState> {
-	private timer = NaN;
+	private controller: FlattenedStepsController;
 
 	constructor(props: CircuitTimerProps) {
 		super(props);
 
+		this.controller = new FlattenedStepsController(props.flattenedSteps);
 		this.state = {
-			controller: null,
-			currentIntervalIndex: 0,
-			currentIntervalRep: 1,
 			currentStepIndex: 0,
-			currentStepRep: 1,
+			hasStarted: false,
 			isRunning: false,
 			endTime: 0,
 			timeLeft: 0,
@@ -44,15 +40,11 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 	}
 
 	public render(): ReactElement {
-		let currentInterval = this.props.intervals[this.state.currentIntervalIndex];
-		const currentRep = this.state.currentIntervalRep;
-		if (currentInterval.type === 'set') {
-			currentInterval = currentInterval.steps[this.state.currentStepIndex];
-		}
+		const step: FlattenedStep = this.props.flattenedSteps[this.state.currentStepIndex];
 
 		return (
 			<div>
-				<ExerciseLabel interval={currentInterval} currentRep={currentRep} />
+				<ExerciseLabel step={step} />
 				<TimeLabel time={this.state.timeLeft} />
 				<StartStopButton isRunning={this.state.isRunning} onClick={this.handleClick} />
 			</div>
@@ -71,29 +63,27 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 		if (this.state.isRunning) {
 			return;
 		}
-		let controller = this.state.controller;
+		const controller = this.controller;
 		let timeLeft = this.state.timeLeft;
-		if (controller === null) {
-			const interval = this.props.intervals[this.state.currentIntervalIndex];
-			if (interval.type === 'set') {
-				controller = new SetIntervalController(interval);
-			} else {
-				controller = new StepIntervalController(interval);
-			}
+		if (this.state.hasStarted) {
 			controller.start(Date.now());
-			timeLeft = controller.timeLeft;
+			timeLeft = controller.timeLeft; //XXX
+			this.setState(
+				(state: CircuitTimerState): CircuitTimerState => {
+					return { ...state, hasStarted: true };
+				}
+			);
 		} else {
 			controller.resume(Date.now());
 			timeLeft = controller.timeLeft;
 		}
 
 		this.setState({
-			controller: controller,
 			isRunning: true,
 			endTime: Date.now() + timeLeft,
 		});
 
-		this.timer = setInterval(this.update, 100);
+		window.requestAnimationFrame(this.update);
 	};
 
 	private stopTimer = (): void => {
@@ -101,66 +91,43 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 			this.setState({
 				isRunning: false,
 			});
-			this.state.controller.pause();
-			clearInterval(this.timer);
+			this.controller.pause();
 		}
 	};
 
 	private update = (): void => {
-		const values = this.state.controller.update(Date.now());
+		if (!this.state.isRunning) {
+			return;
+		}
+
+		const values = this.controller.update(Date.now());
 		if (values.isComplete) {
-			const currentIntervalIndex = this.state.currentIntervalIndex + 1;
-			if (currentIntervalIndex >= this.props.intervals.length) {
-				this.endTimer();
-			} else {
-				this.setNextInterval(currentIntervalIndex);
-			}
+			this.endTimer();
 		} else {
 			this.setState({
 				timeLeft: values.timeLeft,
-				currentIntervalRep: values.reps,
-				currentStepIndex: values.currentStepIndex ? values.currentStepIndex : 0,
+				currentStepIndex: values.stepIndex,
 			});
+			window.requestAnimationFrame(this.update);
 		}
 	};
 
 	private endTimer = (): void => {
-		clearInterval(this.timer);
 		this.setState({
-			controller: null,
-			currentIntervalIndex: 0,
-			currentIntervalRep: 1,
 			currentStepIndex: 0,
-			currentStepRep: 1,
+			hasStarted: false,
 			isRunning: false,
 			endTime: 0,
 			timeLeft: 0,
 		});
 		this.props.history.push('/');
 	};
-
-	private setNextInterval = (interval: number): void => {
-		const nextInterval = this.props.intervals[interval];
-		let nextController;
-		if (nextInterval.type === 'set') {
-			nextController = new SetIntervalController(nextInterval);
-		} else {
-			nextController = new StepIntervalController(nextInterval);
-		}
-		nextController.start(Date.now());
-		this.setState({
-			controller: nextController,
-			timeLeft: nextController.timeLeft,
-			currentIntervalIndex: interval,
-			currentIntervalRep: nextController.reps,
-			endTime: nextController.endTime,
-		});
-	};
 }
 
 const mapStateToProps = (state: ISelectorReducerState) => {
 	return {
 		intervals: state.currentCircuit,
+		flattenedSteps: flattenSteps(state.currentCircuit),
 	};
 };
 
