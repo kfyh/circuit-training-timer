@@ -40,7 +40,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 	}
 
 	public render(): ReactElement {
-		const exercise: FlattenedExercise = this.props.flattenedCircuit[this.state.currentStepIndex];
+		const exercise: FlattenedExercise = this.props.flattenedCircuit[this.state.currentIndex];
 
 		return (
 			<div>
