@@ -73,3 +73,34 @@ export type Circuit = {
 	}>;
 	repetitions: number;
 };
+
+export type FlattenedCircuit = Array<FlattenedExercise>;
+
+export type FlattenedExercise = {
+	id: string;
+	name: string;
+	description?: string;
+	duration?: number;
+	count?: number;
+	groupId: string;
+	groupName: string;
+	groupRepIndex: number;
+	groupRepetitions: number;
+	circuitId: string;
+	circuitName: string;
+	circuitRepIndex: number;
+	circuitRepetition: number;
+};
+
+export const NullFlattenedExercise: FlattenedExercise = {
+	id: '',
+	name: 'null',
+	groupId: '',
+	groupName: 'null',
+	groupRepIndex: 0,
+	groupRepetitions: 0,
+	circuitId: '',
+	circuitName: 'null',
+	circuitRepIndex: 0,
+	circuitRepetition: 0
+};

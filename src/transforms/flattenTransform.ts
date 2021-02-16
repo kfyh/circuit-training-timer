@@ -1,4 +1,4 @@
-import { FlattenedStepCircuit, StepCircuit, Step } from '../types/circuits';
+import { FlattenedStepCircuit, StepCircuit, Step, Circuit, ExerciseGroup, Exercise, FlattenedCircuit, NullFlattenedExercise } from '../types/circuits';
 
 export const flattenSteps = (steps: StepCircuit): FlattenedStepCircuit => {
 	const result: FlattenedStepCircuit = [];
@@ -42,5 +42,57 @@ const addChildSteps = (step: Step, id: string): FlattenedStepCircuit => {
 		}
 	}
 
+	return result;
+};
+
+export const flattenCircuit = (circuit: Circuit, groups: Array<ExerciseGroup>, exercises: Array<Exercise>): FlattenedCircuit => {
+	const result: FlattenedCircuit = [];
+
+	const circuitId = circuit.id;
+	const circuitName = circuit.name;
+	const circuitRepetition = circuit.repetitions;
+
+	const circuitGroups = circuit.exerciseGroups;
+	const numGroups = circuitGroups.length;
+	for (let circuitRepIndex = 1; circuitRepIndex <= circuitRepetition; circuitRepIndex++) {
+		for (let groupIter = 0; groupIter < numGroups; groupIter++) {
+			const groupId = circuitGroups[groupIter].exerciseGroupId;
+			const group: ExerciseGroup | undefined = groups.find((value) => value.id === groupId);
+			if (group !== undefined) {
+				const groupName = group.name;
+				const groupRepetitions = group.repetitions;
+				const groupExercises = group.exercises;
+				const numExercises = groupExercises.length;
+				for (let groupRepIndex = 1; groupRepIndex <= groupRepetitions; groupRepIndex++) {
+					for (let exerciseIter = 0; exerciseIter < numExercises; exerciseIter++) {
+						const { exerciseId: id, duration, count } = groupExercises[exerciseIter];
+						const exercise: Exercise | undefined = exercises.find((value) => value.id === id);
+						if (exercise !== undefined) {
+							const { name, description } = exercise;
+							result.push({
+								id,
+								name,
+								description,
+								duration,
+								count,
+								groupId,
+								groupName,
+								groupRepIndex,
+								groupRepetitions,
+								circuitId,
+								circuitName,
+								circuitRepIndex,
+								circuitRepetition,
+							});
+						} else {
+							throw `Cannot find exercise ${id}`;
+						}
+					}
+				}
+			} else {
+				throw `Cannot find exercise group ${groupId}`;
+			}
+		}
+	}
 	return result;
 };
