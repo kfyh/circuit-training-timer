@@ -4,50 +4,97 @@ import { Provider } from 'react-redux';
 import { AppRouter } from './router/AppRouter';
 import './index.css';
 import { configureStore } from './store/configureStore';
-import { addCircuit, selectCircuit } from './actions/selectorActions';
+import { addCircuit, addExercise, addExerciseGroup, selectCircuit } from './actions/selectorActions';
 
 const store = configureStore();
 
 store.dispatch(
-	addCircuit([
-		{ label: 'Burpies', time: 60, reps: 3, type: 'exercise' },
-		{ label: 'Push Ups', time: 60, reps: 3, type: 'exercise' },
-		{ label: 'Sits Ups', time: 60, reps: 3, type: 'exercise' },
+	addExercise([
+		{
+			id: '0',
+			name: 'Rest',
+			description: 'Take a break',
+		},
+		{
+			id: '1',
+			name: 'Push Ups',
+			description: 'Up and Down',
+		},
 	])
 );
 
 store.dispatch(
-	addCircuit([
-		{ label: 'Burpies', time: 5, reps: 3, type: 'exercise' },
+	addExerciseGroup([
 		{
-			label: 'Finger Training',
-			time: 10,
-			reps: 7,
-			type: 'set',
-			steps: [
-				{ label: 'Hang for 7 secs', time: 7, reps: 1, type: 'exercise' },
-				{ label: 'Break and Recover', time: 3, reps: 1, type: 'break' },
+			id: '0',
+			name: 'Take a Break',
+			exercises: [
+				{
+					exerciseId: '0',
+					duration: 300,
+					count: 1,
+				},
 			],
+			repetitions: 1,
 		},
-		{ label: 'Finished', time: 5, reps: 1, type: 'prep' },
+		{
+			id: '1',
+			name: '50 Push Ups',
+			exercises: [
+				{
+					exerciseId: '1',
+					duration: 20,
+					count: 10,
+				},
+				{
+					exerciseId: '0',
+					duration: 40,
+					count: 1,
+				},
+			],
+			repetitions: 5,
+		},
+		{
+			id: '2',
+			name: 'Missing Exercise',
+			exercises: [
+				{
+					exerciseId: '99',
+				},
+			],
+			repetitions: 1,
+		},
 	])
 );
 
 store.dispatch(
-	selectCircuit([
-		{ label: 'Burpies', time: 5, reps: 3, type: 'exercise' },
-		{
-			label: 'Finger Training',
-			time: 10,
-			reps: 7,
-			type: 'set',
-			steps: [
-				{ label: 'Hang for 7 secs', time: 7, reps: 1, type: 'exercise' },
-				{ label: 'Break and Recover', time: 3, reps: 1, type: 'break' },
-			],
-		},
-		{ label: 'Finished', time: 5, reps: 1, type: 'prep' },
-	])
+	addCircuit({
+		id: '0',
+		name: '50 Push Ups',
+		exerciseGroups: [
+			{
+				id: '1',
+				name: '50 Push Ups',
+				exerciseGroupId: '1',
+			},
+		],
+		repetitions: 1,
+	})
+);
+
+store.dispatch(
+	selectCircuit({
+		id: '0',
+		name: '50 Push Ups',
+		exerciseGroups: [
+			{
+				id: '1',
+				name: '50 Push Ups',
+				exerciseGroupId: '1',
+			},
+		],
+		repetitions: 1,
+	})
 );
 
 const rootElement = document.createElement('div');

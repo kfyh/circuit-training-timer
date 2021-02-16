@@ -1,47 +1,66 @@
-import { StepCircuit } from '../types/circuits';
+import { Circuit, Exercise, ExerciseGroup } from '../types/circuits';
 
 export enum ACTION_TYPES {
+	ADD_EXERCISE = 'ADD_EXERCISE',
+	ADD_EXERCISE_GROUP = 'ADD_EXERCISE_GROUP',
 	ADD_CIRCUIT = 'ADD_CIRCUIT',
 	SELECT_CIRCUIT = 'SELECT_CIRCUIT',
 }
 
 export interface ISelectorAction {
 	type: ACTION_TYPES;
-	circuit: StepCircuit;
+	circuit?: Circuit;
+	exercises?: Array<Exercise>;
+	exerciseGroups?: Array<ExerciseGroup>;
 }
 
 export interface ISelectorReducerState {
-	circuits: Array<StepCircuit>;
-	currentCircuit: StepCircuit;
+	circuits: Array<Circuit>;
+	exerciseGroups: Array<ExerciseGroup>;
+	exercises: Array<Exercise>;
+	currentCircuit: Circuit;
 }
 
 const selectorReducerDefaultState = {
 	circuits: [],
-	currentCircuit: [
-		{ label: 'Burpies', time: 5, reps: 3, type: 'exercise' },
-		{
-			label: 'Finger Training',
-			time: 10,
-			reps: 7,
-			type: 'set',
-			steps: [
-				{ label: 'Hang for 7 secs', time: 7, reps: 1, type: 'exercise' },
-				{ label: 'Break and Recover', time: 3, reps: 1, type: 'break' },
-			],
-		},
-		{ label: 'Finished', time: 5, reps: 1, type: 'prep' },
-	],
+	exerciseGroups: [],
+	exercises: [],
+	currentCircuit: { id: '0', name: 'default', exerciseGroups: [], repetitions: 1 },
 };
 
 export const selectorReducer = (state: ISelectorReducerState = selectorReducerDefaultState, action: ISelectorAction): ISelectorReducerState => {
 	switch (action.type) {
+		case ACTION_TYPES.ADD_EXERCISE:
+			if (action.exercises === undefined) {
+				return state;
+			}
+			const exercises = [...state.exercises, ...action.exercises];
+			return {
+				...state,
+				exercises,
+			};
+		case ACTION_TYPES.ADD_EXERCISE_GROUP:
+			if (action.exerciseGroups === undefined) {
+				return state;
+			}
+			const exerciseGroups = [...state.exerciseGroups, ...action.exerciseGroups];
+			return {
+				...state,
+				exerciseGroups,
+			};
 		case ACTION_TYPES.ADD_CIRCUIT:
+			if (action.circuit === undefined) {
+				return state;
+			}
 			const circuits = [...state.circuits, action.circuit];
 			return {
 				...state,
 				circuits,
 			};
 		case ACTION_TYPES.SELECT_CIRCUIT:
+			if (action.circuit === undefined) {
+				return state;
+			}
 			return {
 				...state,
 				currentCircuit: action.circuit,

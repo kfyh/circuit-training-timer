@@ -1,33 +1,33 @@
 import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { StartStopButton, TimeLabel, ExerciseLabel } from './timer';
-import { FlattenedStepsController } from '../controllers';
+import { FlattenedCircuitController } from '../controllers';
 import { History } from 'history';
-import { FlattenedStep, FlattenedStepCircuit } from '../types/circuits';
+import { FlattenedExercise, FlattenedCircuit } from '../types/circuits';
 import { ISelectorReducerState } from '../reducers/selectorReducer';
-import { flattenSteps } from '../transforms/flattenTransform';
+import { flattenCircuit } from '../transforms/flattenTransform';
 
 type CircuitTimerProps = {
-	flattenedSteps: FlattenedStepCircuit;
+	flattenedCircuit: FlattenedCircuit;
 	history: History;
 };
 
 type CircuitTimerState = {
-	currentStepIndex: number;
+	currentIndex: number;
 	hasStarted: boolean;
 	isRunning: boolean;
 	endTime: number;
 	timeLeft: number;
 };
 export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTimerState> {
-	private controller: FlattenedStepsController;
+	private controller: FlattenedCircuitController;
 
 	constructor(props: CircuitTimerProps) {
 		super(props);
 
-		this.controller = new FlattenedStepsController(props.flattenedSteps);
+		this.controller = new FlattenedCircuitController(props.flattenedCircuit);
 		this.state = {
-			currentStepIndex: 0,
+			currentIndex: 0,
 			hasStarted: false,
 			isRunning: false,
 			endTime: 0,
@@ -40,11 +40,11 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 	}
 
 	public render(): ReactElement {
-		const step: FlattenedStep = this.props.flattenedSteps[this.state.currentStepIndex];
+		const exercise: FlattenedExercise = this.props.flattenedCircuit[this.state.currentStepIndex];
 
 		return (
 			<div>
-				<ExerciseLabel step={step} />
+				<ExerciseLabel exercise={exercise} />
 				<TimeLabel time={this.state.timeLeft} />
 				<StartStopButton isRunning={this.state.isRunning} onClick={this.handleClick} />
 			</div>
@@ -104,7 +104,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 		} else {
 			this.setState({
 				timeLeft: values.timeLeft,
-				currentStepIndex: values.stepIndex,
+				currentIndex: values.index,
 			});
 			window.requestAnimationFrame(this.update);
 		}
@@ -112,7 +112,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 
 	private endTimer = (): void => {
 		this.setState({
-			currentStepIndex: 0,
+			currentIndex: 0,
 			hasStarted: false,
 			isRunning: false,
 			endTime: 0,
@@ -124,7 +124,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 
 const mapStateToProps = (state: ISelectorReducerState) => {
 	return {
-		flattenedSteps: flattenSteps(state.currentCircuit),
+		flattenedCircuit: flattenCircuit(state.currentCircuit, state.exerciseGroups, state.exercises),
 	};
 };
 

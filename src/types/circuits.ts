@@ -57,7 +57,7 @@ export type ExerciseGroup = {
 	name: string;
 	exercises: Array<{
 		exerciseId: string;
-		duration?: number;
+		duration: number;
 		count?: number;
 	}>;
 	repetitions: number;
@@ -80,7 +80,7 @@ export type FlattenedExercise = {
 	id: string;
 	name: string;
 	description?: string;
-	duration?: number;
+	duration: number;
 	count?: number;
 	groupId: string;
 	groupName: string;
@@ -95,6 +95,7 @@ export type FlattenedExercise = {
 export const NullFlattenedExercise: FlattenedExercise = {
 	id: '',
 	name: 'null',
+	duration: 0,
 	groupId: '',
 	groupName: 'null',
 	groupRepIndex: 0,
@@ -102,5 +103,5 @@ export const NullFlattenedExercise: FlattenedExercise = {
 	circuitId: '',
 	circuitName: 'null',
 	circuitRepIndex: 0,
-	circuitRepetition: 0
+	circuitRepetition: 0,
 };
