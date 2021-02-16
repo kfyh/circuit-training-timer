@@ -135,6 +135,7 @@ const exerciseGroups: Array<ExerciseGroup> = [
         exercises: [
             {
                 exerciseId: '99',
+                duration: 1,
             }
         ],
         repetitions: 1
