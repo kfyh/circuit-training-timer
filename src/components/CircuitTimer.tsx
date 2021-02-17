@@ -106,7 +106,10 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 				timeLeft: values.timeLeft,
 				currentIndex: values.index,
 			});
-			window.requestAnimationFrame(this.update);
+
+			if (this.state.isRunning) {
+				window.requestAnimationFrame(this.update);
+			}
 		}
 	};
 
