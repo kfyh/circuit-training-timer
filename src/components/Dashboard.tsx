@@ -13,29 +13,13 @@ type DashboardProps = {
 	selectCircuit: (circuit: Circuit) => void;
 };
 
-type DashboardState = {
-	currentIndex: number;
-	hasStarted: boolean;
-	isRunning: boolean;
-	endTime: number;
-	timeLeft: number;
-};
-
-export class Dashboard extends React.Component<DashboardProps, {}> {
+export class Dashboard extends React.Component<DashboardProps, Record<string, never>> {
 	constructor(props: DashboardProps) {
 		super(props);
-
-		this.state = {
-			currentIndex: 0,
-			hasStarted: false,
-			isRunning: false,
-			endTime: 0,
-			timeLeft: 0,
-		};
 	}
 
 	private onClick = (circuit: Circuit) => {
-		selectCircuit(circuit);
+		this.props.selectCircuit(circuit);
 		this.props.history.push('/timer');
 	};
 

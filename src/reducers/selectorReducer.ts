@@ -65,7 +65,5 @@ export const selectorReducer = (state: ISelectorReducerState = selectorReducerDe
 				...state,
 				currentCircuit: action.circuit,
 			};
-		default:
-			return state;
 	}
 };

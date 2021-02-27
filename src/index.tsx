@@ -125,23 +125,8 @@ store.dispatch(
 		name: `Climber's Challenge`,
 		exerciseGroups: [
 			{
-				id: '1',
+				id: '2',
 				name: '50 Push Ups',
-				exerciseGroupId: '2',
-			},
-		],
-		repetitions: 1,
-	})
-);
-
-store.dispatch(
-	selectCircuit({
-		id: '0',
-		name: '50 Push Ups',
-		exerciseGroups: [
-			{
-				id: '1',
-				name: '100 Push Ups, Sit Ups, Squats, Pull Ups',
 				exerciseGroupId: '2',
 			},
 		],
