@@ -70,16 +70,16 @@ store.dispatch(
 					exerciseId: '2',
 					duration: 20,
 					count: 10,
-					rest: 40
+					rest: 5
 				},
 				{
 					exerciseId: '1',
 					duration: 20,
 					count: 10,
-					rest: 40
+					rest: 0
 				}],
 				repetitions: 5,
-				rest: 120
+				rest: 60
 			}
 		],
 		repetitions: 1

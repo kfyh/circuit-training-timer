@@ -3,10 +3,11 @@ import { FlattenedExercise } from '../../types/circuits';
 
 type ExerciseLabelProps = {
 	exercise: FlattenedExercise;
+	isResting: boolean;
 };
 
 export function ExerciseLabel(props: ExerciseLabelProps): ReactElement {
-	const exercise = props.exercise;
+	const { exercise, isResting } = props;
 	const excerciseLabel = exercise.name;
 
 	return (
@@ -14,7 +15,7 @@ export function ExerciseLabel(props: ExerciseLabelProps): ReactElement {
 			<p>
 				{exercise.groupName} ({exercise.groupRepIndex}/{exercise.groupRepetitions})
 			</p>
-			<p>{excerciseLabel}</p>
+			{ isResting ? <p>Rest</p> : <p>{excerciseLabel}</p> }
 		</div>
 	);
 }

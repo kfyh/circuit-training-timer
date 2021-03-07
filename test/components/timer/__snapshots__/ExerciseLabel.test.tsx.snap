@@ -3,23 +3,23 @@
 exports[`Given ExerciseLabel When interval is {
   id: '0',
   name: 'Push Ups',
-  description: 'Up and Down',
-  duration: 20,
-  count: 10,
-  groupId: '0',
+  description: 'Take a break',
+  duration: 40,
+  count: 1,
   groupName: '50 Push Ups',
-  groupRepIndex: 1,
+  groupRepIndex: 3,
   groupRepetitions: 5,
   circuitId: '0',
   circuitName: '50 Push Ups',
   circuitRepIndex: 1,
-  circuitRepetition: 1
-}, rep is 1 then label is Burpies (1/3) 1`] = `
+  circuitRepetition: 1,
+  rest: 20
+}, and resting is false 1`] = `
 <div>
   <p>
     50 Push Ups
      (
-    1
+    3
     /
     5
     )
@@ -31,25 +31,25 @@ exports[`Given ExerciseLabel When interval is {
 `;
 
 exports[`Given ExerciseLabel When interval is {
-  id: '0',
-  name: 'Rest',
-  description: 'Take a break',
-  duration: 40,
-  count: 1,
-  groupId: '0',
+  id: '1',
+  name: 'Push Ups',
+  description: 'Up and Down',
+  duration: 20,
+  count: 10,
   groupName: '50 Push Ups',
-  groupRepIndex: 3,
+  groupRepIndex: 1,
   groupRepetitions: 5,
-  circuitId: '0',
+  circuitId: '1',
   circuitName: '50 Push Ups',
   circuitRepIndex: 1,
-  circuitRepetition: 1
-}, rep is 1 then label is Push Ups (2/5) 1`] = `
+  circuitRepetition: 1,
+  rest: 40
+}, and resting is true 1`] = `
 <div>
   <p>
     50 Push Ups
      (
-    3
+    1
     /
     5
     )

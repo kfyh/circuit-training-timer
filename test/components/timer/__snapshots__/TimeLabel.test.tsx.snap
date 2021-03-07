@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Given TimeLabel When render with time -1 then show 0 sec 1`] = `
+exports[`Given TimeLabel When render with time -1 and resting is false 1`] = `
 <div
   style={
     Object {
@@ -13,11 +13,11 @@ exports[`Given TimeLabel When render with time -1 then show 0 sec 1`] = `
 </div>
 `;
 
-exports[`Given TimeLabel When render with time 0 then show 0 sec 1`] = `
+exports[`Given TimeLabel When render with time 0 and resting is true 1`] = `
 <div
   style={
     Object {
-      "color": "blue",
+      "color": "green",
       "fontSize": "250pt",
     }
   }
@@ -26,7 +26,7 @@ exports[`Given TimeLabel When render with time 0 then show 0 sec 1`] = `
 </div>
 `;
 
-exports[`Given TimeLabel When render with time 1000 then show 1 sec 1`] = `
+exports[`Given TimeLabel When render with time 35 and resting is false 1`] = `
 <div
   style={
     Object {
@@ -39,7 +39,20 @@ exports[`Given TimeLabel When render with time 1000 then show 1 sec 1`] = `
 </div>
 `;
 
-exports[`Given TimeLabel When render with time 1499 then show 2 sec 1`] = `
+exports[`Given TimeLabel When render with time 1000 and resting is true 1`] = `
+<div
+  style={
+    Object {
+      "color": "green",
+      "fontSize": "250pt",
+    }
+  }
+>
+  1
+</div>
+`;
+
+exports[`Given TimeLabel When render with time 1499 and resting is false 1`] = `
 <div
   style={
     Object {
@@ -52,11 +65,11 @@ exports[`Given TimeLabel When render with time 1499 then show 2 sec 1`] = `
 </div>
 `;
 
-exports[`Given TimeLabel When render with time 100000 then show 0 sec 1`] = `
+exports[`Given TimeLabel When render with time 100000 and resting is true 1`] = `
 <div
   style={
     Object {
-      "color": "blue",
+      "color": "green",
       "fontSize": "130pt",
     }
   }

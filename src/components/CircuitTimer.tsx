@@ -17,6 +17,7 @@ type CircuitTimerState = {
 	currentIndex: number;
 	hasStarted: boolean;
 	isRunning: boolean;
+	isResting: boolean;
 	endTime: number;
 	timeLeft: number;
 };
@@ -31,6 +32,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 			currentIndex: 0,
 			hasStarted: false,
 			isRunning: false,
+			isResting: false,
 			endTime: 0,
 			timeLeft: 0,
 		};
@@ -45,8 +47,8 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 
 		return (
 			<div>
-				<ExerciseLabel exercise={exercise} />
-				<TimeLabel time={this.state.timeLeft} />
+				<ExerciseLabel exercise={exercise} isResting={this.state.isResting} />
+				<TimeLabel time={this.state.timeLeft} isResting={this.state.isResting} />
 				<StartStopButton isRunning={this.state.isRunning} onClick={this.handleClick} />
 				<NavLink to="/" exact={true}>
 					Home
@@ -109,6 +111,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 			this.setState({
 				timeLeft: values.timeLeft,
 				currentIndex: values.index,
+				isResting: values.isResting
 			});
 
 			if (this.state.isRunning) {
@@ -122,6 +125,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 			currentIndex: 0,
 			hasStarted: false,
 			isRunning: false,
+			isResting: false,
 			endTime: 0,
 			timeLeft: 0,
 		});

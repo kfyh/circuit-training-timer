@@ -3,6 +3,7 @@ import { FlattenedCircuit, FlattenedExercise, NullFlattenedExercise } from '../t
 export type UpdateValues = {
 	isComplete: boolean;
 	isRunning: boolean;
+	isResting: boolean;
 	index: number;
 	endTime: number;
 	timeLeft: number;
@@ -11,6 +12,7 @@ export type UpdateValues = {
 export class FlattenedCircuitController {
 	private steps: FlattenedCircuit;
 	private isRunning: boolean;
+	private isResting: boolean;
 
 	private timeLeft = -1;
 	private endTime = -1;
@@ -20,6 +22,7 @@ export class FlattenedCircuitController {
 	constructor(flattenedSteps: FlattenedCircuit) {
 		this.steps = flattenedSteps;
 		this.isRunning = false;
+		this.isResting = false;
 	}
 
 	public start = (currentTime: number): number => {
@@ -28,6 +31,7 @@ export class FlattenedCircuitController {
 		this.timeLeft = this.step.duration * 1000;
 		this.endTime = currentTime + this.timeLeft;
 		this.isRunning = true;
+		this.isResting = false;
 		return this.timeLeft;
 	};
 
@@ -45,14 +49,15 @@ export class FlattenedCircuitController {
 		const endTime = this.endTime;
 		let isComplete = false;
 		if (endTime - currentTime <= 0) {
-			if (this.index < this.steps.length - 1) {
-				this.index++;
-				this.step = this.steps[this.index];
-				this.timeLeft = this.step.duration * 1000;
+			if (this.isResting) {
+				this.isResting = false;
+				isComplete = this.setNextStep(currentTime);
+			} else if (this.step.rest > 0) {
+				this.isResting = true;
+				this.timeLeft = this.step.rest * 1000;
 				this.endTime = currentTime + this.timeLeft;
 			} else {
-				isComplete = true;
-				this.isRunning = false;
+				isComplete = this.setNextStep(currentTime);
 			}
 		} else {
 			this.timeLeft = endTime - currentTime;
@@ -61,9 +66,25 @@ export class FlattenedCircuitController {
 		return {
 			isComplete: isComplete,
 			isRunning: this.isRunning,
+			isResting: this.isResting,
 			index: this.index,
 			endTime: this.endTime,
 			timeLeft: this.timeLeft,
 		};
 	};
+
+	private setNextStep(currentTime: number): boolean {
+		let isComplete = false;
+		if (this.index < this.steps.length - 1) {
+			this.index++;
+			this.step = this.steps[this.index];
+			this.timeLeft = this.step.duration * 1000;
+			this.endTime = currentTime + this.timeLeft;
+		} else {
+			isComplete = true;
+			this.isRunning = false;
+		}
+
+		return isComplete;
+	}
 }
