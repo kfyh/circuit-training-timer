@@ -1,4 +1,4 @@
-import { addCircuit, selectCircuit, addExercise, addExerciseGroup } from '../../src/actions/selectorActions';
+import { addCircuit, selectCircuit, addExercise } from '../../src/actions/selectorActions';
 import { ACTION_TYPES } from '../../src/reducers/selectorReducer';
 import { circuit, exercise, exerciseGroup } from '../fixtures/exerciseFixtures';
 
@@ -31,21 +31,5 @@ test('When add Exercises, then correct action returned', () => {
     expect(result).toStrictEqual({
         type: ACTION_TYPES.ADD_EXERCISE,
         exercises: [exercise, exercise],
-    });
-});
-
-test('When add ExerciseGroup, then correct action returned', () => {
-    const result = addExerciseGroup(exerciseGroup);
-    expect(result).toStrictEqual({
-        type: ACTION_TYPES.ADD_EXERCISE_GROUP,
-        exerciseGroups: [exerciseGroup],
-    });
-});
-
-test('When add ExerciseGroups, then correct action returned', () => {
-    const result = addExerciseGroup([exerciseGroup, exerciseGroup]);
-    expect(result).toStrictEqual({
-        type: ACTION_TYPES.ADD_EXERCISE_GROUP,
-        exerciseGroups: [exerciseGroup, exerciseGroup],
     });
 });

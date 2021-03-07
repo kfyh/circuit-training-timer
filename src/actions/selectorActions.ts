@@ -1,5 +1,5 @@
 import { ACTION_TYPES } from '../reducers/selectorReducer';
-import { Circuit, Exercise, ExerciseGroup } from '../types/circuits';
+import { Circuit, Exercise } from '../types/circuits';
 import { ISelectorAction } from '../reducers/selectorReducer';
 
 export const addCircuit = (circuit: Circuit): ISelectorAction => ({
@@ -23,19 +23,5 @@ export const addExercise = (exercise: Exercise | Array<Exercise>): ISelectorActi
 	return {
 		type: ACTION_TYPES.ADD_EXERCISE,
 		exercises,
-	};
-};
-
-export const addExerciseGroup = (exerciseGroup: ExerciseGroup | Array<ExerciseGroup>): ISelectorAction => {
-	let exerciseGroups: Array<ExerciseGroup> = [];
-	if (Array.isArray(exerciseGroup)) {
-		exerciseGroups = exerciseGroup;
-	} else {
-		exerciseGroups = [exerciseGroup];
-	}
-
-	return {
-		type: ACTION_TYPES.ADD_EXERCISE_GROUP,
-		exerciseGroups,
 	};
 };

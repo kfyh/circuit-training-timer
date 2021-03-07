@@ -25,28 +25,6 @@ describe('When add exercise', () =>{
 
 });
 
-describe('When add exercise group', () => {
-    test('given exercise group, then exercise group added to state', () => {
-        const action: ISelectorAction = {
-            type: ACTION_TYPES.ADD_EXERCISE_GROUP,
-            exerciseGroups: [exerciseGroup],
-        };
-
-        const result = selectorReducer(undefined, action);
-        expect(result.exerciseGroups).toStrictEqual([exerciseGroup]);
-    });
-
-    test('given no exercise group, then state remains the same', () => {
-        const action: ISelectorAction = {
-            type: ACTION_TYPES.ADD_EXERCISE_GROUP,
-        };
-    
-        const result = selectorReducer(existingState, action);
-        expect(result).toStrictEqual(existingState);
-    });
-
-});
-
 describe('When add circuit', () => {
     test('Given circuit, then circuit added to state', () => {
         const action: ISelectorAction = {

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { AppRouter } from './router/AppRouter';
 import './index.css';
 import { configureStore } from './store/configureStore';
-import { addCircuit, addExercise, addExerciseGroup, selectCircuit } from './actions/selectorActions';
+import { addCircuit, addExercise } from './actions/selectorActions';
 
 const store = configureStore();
 
@@ -39,83 +39,23 @@ store.dispatch(
 );
 
 store.dispatch(
-	addExerciseGroup([
-		{
-			id: '0',
-			name: 'Take a Break',
-			exercises: [
-				{
-					exerciseId: '0',
-					duration: 300,
-					count: 1,
-				},
-			],
-			repetitions: 1,
-		},
-		{
-			id: '1',
-			name: '50 Push Ups',
-			exercises: [
-				{
-					exerciseId: '1',
-					duration: 20,
-					count: 10,
-				},
-				{
-					exerciseId: '0',
-					duration: 40,
-					count: 1,
-				},
-			],
-			repetitions: 5,
-		},
-		{
-			id: '2',
-			name: `Climber's Challenge`,
-			exercises: [
-				{
-					exerciseId: '1',
-					duration: 20,
-					count: 10,
-				},
-				{
-					exerciseId: '2',
-					duration: 20,
-					count: 10,
-				},
-				{
-					exerciseId: '3',
-					duration: 20,
-					count: 10,
-				},
-				{
-					exerciseId: '4',
-					duration: 20,
-					count: 10,
-				},
-				{
-					exerciseId: '0',
-					duration: 30,
-					count: 1,
-				},
-			],
-			repetitions: 10,
-		},
-	])
-);
-
-store.dispatch(
 	addCircuit({
 		id: '0',
 		name: '50 Push Ups',
 		exerciseGroups: [
 			{
-				id: '1',
 				name: '50 Push Ups',
-				exerciseGroupId: '1',
-			},
+				exercises: [{
+					exerciseId: '1',
+					duration: 20,
+					count: 10,
+					rest: 0
+				}],
+				repetitions: 5,
+				rest: 40
+			}
 		],
-		repetitions: 1,
+		repetitions: 1
 	})
 );
 
@@ -125,12 +65,24 @@ store.dispatch(
 		name: `Climber's Challenge`,
 		exerciseGroups: [
 			{
-				id: '2',
-				name: '50 Push Ups',
-				exerciseGroupId: '2',
-			},
+				name: `Climber's Challenge`,
+				exercises: [{
+					exerciseId: '2',
+					duration: 20,
+					count: 10,
+					rest: 40
+				},
+				{
+					exerciseId: '1',
+					duration: 20,
+					count: 10,
+					rest: 40
+				}],
+				repetitions: 5,
+				rest: 120
+			}
 		],
-		repetitions: 1,
+		repetitions: 1
 	})
 );
 

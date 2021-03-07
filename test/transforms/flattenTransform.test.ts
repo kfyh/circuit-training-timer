@@ -65,22 +65,40 @@ const exerciseCircuit1: Circuit = {
     name: '50 Push Ups',
     exerciseGroups: [
         {
-            id: '1',
             name: '50 Push Ups',
-            exerciseGroupId: '1'
+            exercises: [{
+                exerciseId: '1',
+                duration: 20,
+                count: 10,
+                rest: 0
+            }],
+            repetitions: 5,
+            rest: 40
         }
     ],
     repetitions: 1
 };
 
-const exerciseCircuitNoGroup: Circuit = {
+const exerciseCircuit2: Circuit = {
     id: '0',
-    name: 'Missing Group',
+    name: `Climber's Challenge`,
     exerciseGroups: [
         {
-            id: '1',
-            name: 'Missing Group',
-            exerciseGroupId: '99'
+            name: `Climber's Challenge`,
+            exercises: [{
+                exerciseId: '0',
+                duration: 20,
+                count: 10,
+                rest: 40
+            },
+            {
+                exerciseId: '1',
+                duration: 20,
+                count: 10,
+                rest: 40
+            }],
+            repetitions: 5,
+            rest: 120
         }
     ],
     repetitions: 1
@@ -88,65 +106,28 @@ const exerciseCircuitNoGroup: Circuit = {
 
 const exerciseCircuitNoExercise: Circuit = {
     id: '0',
-    name: 'Missing Exercise',
+    name: 'Missing',
     exerciseGroups: [
         {
-            id: '1',
-            name: 'Missing Exercise',
-            exerciseGroupId: '2'
+            name: 'Missing',
+            exercises: [{
+                exerciseId: '99',
+                duration: 20,
+                count: 10,
+                rest: 40
+            }],
+            repetitions: 5,
+            rest: 0
         }
     ],
     repetitions: 1
 };
 
-const exerciseGroups: Array<ExerciseGroup> = [
-    {
-        id: '0',
-        name: 'Take a Break',
-        exercises: [
-            {
-                exerciseId: '0',
-                duration: 300,
-                count: 1
-            },
-        ],
-        repetitions: 1
-    },
-    {
-        id: '1',
-        name: '50 Push Ups',
-        exercises: [
-            {
-                exerciseId: '1',
-                duration: 20,
-                count: 10
-            },
-            {
-                exerciseId: '0',
-                duration: 40,
-                count: 1
-            },
-        ],
-        repetitions: 5
-    },
-    {
-        id: '2',
-        name: 'Missing Exercise',
-        exercises: [
-            {
-                exerciseId: '99',
-                duration: 1,
-            }
-        ],
-        repetitions: 1
-    }
-];
-
 const exercises: Array<Exercise> = [
     {
         id: '0',
-        name: 'Rest',
-        description: 'Take a break'
+        name: 'Sit Ups',
+        description: 'Crunchin'
     },
     {
         id: '1',
@@ -156,29 +137,35 @@ const exercises: Array<Exercise> = [
 ];
 
 test('When flatten circuit then flattened correctly', () => {
-	const result = flattenCircuit(exerciseCircuit1, exerciseGroups, exercises);
+	const result = flattenCircuit(exerciseCircuit1, exercises);
 	expect(result).toStrictEqual([
-        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 1, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Rest', description: 'Take a break', duration: 40, count: 1, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 1, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 2, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Rest', description: 'Take a break', duration: 40, count: 1, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 2, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 3, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Rest', description: 'Take a break', duration: 40, count: 1, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 3, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 4, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Rest', description: 'Take a break', duration: 40, count: 1, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 4, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 5, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
-        { id: expect.anything(), name: 'Rest', description: 'Take a break', duration: 40, count: 1, groupId: expect.anything(), groupName: '50 Push Ups', groupRepIndex: 5, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: '50 Push Ups', groupRepIndex: 1, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: '50 Push Ups', groupRepIndex: 2, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: '50 Push Ups', groupRepIndex: 3, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: '50 Push Ups', groupRepIndex: 4, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: '50 Push Ups', groupRepIndex: 5, groupRepetitions: 5, circuitId: expect.anything(), circuitName: '50 Push Ups', circuitRepIndex: 1, circuitRepetition: 1, rest: 0 },
     ]);
 });
 
-test('When flatten circuit with missing group error thrown', () => {
-	expect(() => {
-        flattenCircuit(exerciseCircuitNoGroup, exerciseGroups, exercises);
-    }).toThrowError();
+
+test('When flatten circuit2 then flattened correctly', () => {
+	const result = flattenCircuit(exerciseCircuit2, exercises);
+	expect(result).toStrictEqual([
+        { id: expect.anything(), name: 'Sit Ups', description: 'Crunchin', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 1, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 1, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 120 },
+        { id: expect.anything(), name: 'Sit Ups', description: 'Crunchin', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 2, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 2, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 120 },
+        { id: expect.anything(), name: 'Sit Ups', description: 'Crunchin', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 3, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 3, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 120 },
+        { id: expect.anything(), name: 'Sit Ups', description: 'Crunchin', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 4, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 4, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 120 },
+        { id: expect.anything(), name: 'Sit Ups', description: 'Crunchin', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 5, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 40 },
+        { id: expect.anything(), name: 'Push Ups', description: 'Up and Down', duration: 20, count: 10, groupName: `Climber's Challenge`, groupRepIndex: 5, groupRepetitions: 5, circuitId: expect.anything(), circuitName: `Climber's Challenge`, circuitRepIndex: 1, circuitRepetition: 1, rest: 0 },
+    ]);
 });
 
 test('When flatten circuit with missing exercise error thrown', () => {
 	expect(() => {
-        flattenCircuit(exerciseCircuitNoExercise, exerciseGroups, exercises);
+        flattenCircuit(exerciseCircuitNoExercise, exercises);
     }).toThrowError();
 });

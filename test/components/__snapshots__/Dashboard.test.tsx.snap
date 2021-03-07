@@ -5,29 +5,33 @@ exports[`Given circuits, dashboard displays correctly 1`] = `
   <p>
     Dashboard
   </p>
-  <CircuitView
-    circuit={
-      Object {
-        "exerciseGroups": Array [],
-        "id": "0",
-        "name": "Circuit One",
-        "repetitions": 1,
-      }
+  <a>
+    New Circuit
+  </a>
+  <NavLink
+    exact={true}
+    to="/addexercise"
+  >
+    Add Exercise
+  </NavLink>
+  <CircuitListView
+    circuits={
+      Array [
+        Object {
+          "exerciseGroups": Array [],
+          "id": "0",
+          "name": "Circuit One",
+          "repetitions": 1,
+        },
+        Object {
+          "exerciseGroups": Array [],
+          "id": "1",
+          "name": "Circuit Two",
+          "repetitions": 1,
+        },
+      ]
     }
-    key="0"
-    onClick={[Function]}
-  />
-  <CircuitView
-    circuit={
-      Object {
-        "exerciseGroups": Array [],
-        "id": "1",
-        "name": "Circuit Two",
-        "repetitions": 1,
-      }
-    }
-    key="1"
-    onClick={[Function]}
+    onSelect={[Function]}
   />
 </div>
 `;

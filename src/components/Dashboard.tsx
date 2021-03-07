@@ -4,8 +4,9 @@ import { ISelectorAction, ISelectorReducerState } from '../reducers';
 import { Circuit } from '../types/circuits';
 import { Dispatch } from 'redux';
 import { selectCircuit } from '../actions/selectorActions';
-import { CircuitView } from './selector/CircuitView';
+import { CircuitListView } from './selector/';
 import { History } from 'history';
+import { NavLink } from 'react-router-dom';
 
 type DashboardProps = {
 	circuits: Array<Circuit>;
@@ -27,9 +28,11 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 		return (
 			<div>
 				<p>Dashboard</p>
-				{this.props.circuits.map((circuit) => {
-					return <CircuitView key={circuit.id} circuit={circuit} onClick={this.onClick} />;
-				})}
+				<a>New Circuit</a>
+				<NavLink to="/addexercise" exact={true}>
+					Add Exercise
+				</NavLink>
+				<CircuitListView circuits={this.props.circuits} onSelect={this.onClick} />
 			</div>
 		);
 	}

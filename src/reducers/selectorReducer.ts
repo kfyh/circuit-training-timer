@@ -2,7 +2,6 @@ import { Circuit, Exercise, ExerciseGroup } from '../types/circuits';
 
 export enum ACTION_TYPES {
 	ADD_EXERCISE = 'ADD_EXERCISE',
-	ADD_EXERCISE_GROUP = 'ADD_EXERCISE_GROUP',
 	ADD_CIRCUIT = 'ADD_CIRCUIT',
 	SELECT_CIRCUIT = 'SELECT_CIRCUIT',
 }
@@ -16,14 +15,12 @@ export interface ISelectorAction {
 
 export interface ISelectorReducerState {
 	circuits: Array<Circuit>;
-	exerciseGroups: Array<ExerciseGroup>;
 	exercises: Array<Exercise>;
 	currentCircuit: Circuit;
 }
 
 const selectorReducerDefaultState = {
 	circuits: [],
-	exerciseGroups: [],
 	exercises: [],
 	currentCircuit: { id: '0', name: 'default', exerciseGroups: [], repetitions: 1 },
 };
@@ -38,15 +35,6 @@ export const selectorReducer = (state: ISelectorReducerState = selectorReducerDe
 			return {
 				...state,
 				exercises,
-			};
-		case ACTION_TYPES.ADD_EXERCISE_GROUP:
-			if (action.exerciseGroups === undefined) {
-				return state;
-			}
-			const exerciseGroups = [...state.exerciseGroups, ...action.exerciseGroups];
-			return {
-				...state,
-				exerciseGroups,
 			};
 		case ACTION_TYPES.ADD_CIRCUIT:
 			if (action.circuit === undefined) {
