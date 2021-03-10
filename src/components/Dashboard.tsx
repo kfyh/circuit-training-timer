@@ -1,14 +1,15 @@
 import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { ISelectorAction, ISelectorReducerState } from '../reducers';
-import { Circuit } from '../types/circuits';
+import { Circuit, Exercise } from '../types/circuits';
 import { Dispatch } from 'redux';
 import { selectCircuit } from '../actions/selectorActions';
-import { CircuitListView } from './selector/';
+import { CircuitListView, ExerciseListView } from './selector/';
 import { History } from 'history';
 import { NavLink } from 'react-router-dom';
 
 type DashboardProps = {
+	exercises: Array<Exercise>;
 	circuits: Array<Circuit>;
 	history: History;
 	selectCircuit: (circuit: Circuit) => void;
@@ -19,9 +20,13 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 		super(props);
 	}
 
-	private onClick = (circuit: Circuit) => {
+	private onCircuitClicked = (circuit: Circuit) => {
 		this.props.selectCircuit(circuit);
 		this.props.history.push('/timer');
+	};
+
+	private onExerciseClicked = () => {
+		
 	};
 
 	public render(): ReactElement {
@@ -32,7 +37,8 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 				<NavLink to="/addexercise" exact={true}>
 					Add Exercise
 				</NavLink>
-				<CircuitListView circuits={this.props.circuits} onSelect={this.onClick} />
+				<CircuitListView circuits={this.props.circuits} onSelect={this.onCircuitClicked} />
+				<ExerciseListView exercises={this.props.exercises} onSelect={this.onExerciseClicked} />
 			</div>
 		);
 	}
@@ -41,6 +47,7 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 const mapStateToProps = (state: ISelectorReducerState) => {
 	return {
 		circuits: state.circuits,
+		exercises: state.exercises,
 	};
 };
 
