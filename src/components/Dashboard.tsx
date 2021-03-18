@@ -33,7 +33,9 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 		return (
 			<div>
 				<p>Dashboard</p>
-				<a>New Circuit</a>
+				<NavLink to="/addcircuit" exact={true}>
+					New Circuit
+				</NavLink>
 				<NavLink to="/addexercise" exact={true}>
 					Add Exercise
 				</NavLink>
