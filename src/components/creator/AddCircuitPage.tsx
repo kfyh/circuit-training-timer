@@ -2,23 +2,23 @@ import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ExerciseGroup, Exercise } from '../../types/circuits';
-import { ISelectorAction } from '../../reducers';
+import { ISelectorAction, ISelectorReducerState } from '../../reducers';
 import { addExercise } from '../../actions/selectorActions';
 import { GroupView } from '../selector/GroupView';
-import { EditGroupView } from '../creator/EditGroupView';
+import { EditGroupView } from './EditGroupView';
 
-type CreateCircuitViewProps = {
+type AddCircuitViewProps = {
 	exercises: Array<Exercise>;
 };
 
-type CreateCircuitViewState = {
+type AddCircuitViewState = {
 	name: string;
 	exerciseGroups: Array<ExerciseGroup>;
 	repetitions: number;
 };
 
-export class CreateCircuitView extends React.Component<CreateCircuitViewProps, CreateCircuitViewState> {
-	constructor(props: CreateCircuitViewProps) {
+export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCircuitViewState> {
+	constructor(props: AddCircuitViewProps) {
 		super(props);
 		this.state = {
 			name: 'new circuit',
@@ -31,6 +31,12 @@ export class CreateCircuitView extends React.Component<CreateCircuitViewProps, C
 							duration: 1,
 							count: 1,
 							rest: 1,
+						},
+						{
+							exerciseId: '3',
+							duration: 4,
+							count: 3,
+							rest: 3,
 						},
 					],
 					repetitions: 1,
@@ -49,7 +55,15 @@ export class CreateCircuitView extends React.Component<CreateCircuitViewProps, C
 				{this.state.exerciseGroups.map((group) => {
 					return <GroupView {...group} />;
 				})}
-				<EditGroupView exercises={this.props.exercises} />
+				<EditGroupView exerciseStore={this.props.exercises} />
+				<div>
+					<input type='text' placeholder='Group'
+						value={this.state.amount}
+						onChange={this.onAmountChange}
+					/>
+					<button onClick={this.removeExpense}>Remove</button>
+				</div>
+
 			</div>
 		);
 	}
@@ -64,4 +78,4 @@ const mapStateToProps = (state: ISelectorReducerState) => {
 		exercises: state.exercises,
 	};
 };
-export const ConnectedCreateCircuitView = connect(mapStateToProps, mapDispatchToProps)(CreateCircuitView);
+export const ConnectedAddCircuitPage = connect(mapStateToProps, mapDispatchToProps)(AddCircuitPage);

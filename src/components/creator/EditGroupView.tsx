@@ -2,12 +2,16 @@ import React, { FormEvent, ReactElement } from 'react';
 import { Exercise } from 'src/types/circuits';
 import { GroupExerciseForm } from './GroupExerciseForm';
 
-const GroupExerciseView = () => {
-	return <div>Hello</div>;
+const GroupExerciseView = ({ exerciseName, duration, count, rest }) => {
+	return (
+		<div>
+			{exerciseName}: duration: {duration}, count: {count}, rest: {rest}
+		</div>
+	);
 };
 
 type EditGroupViewProps = {
-	exercises: Array<Exercise>;
+	exerciseStore: Array<Exercise>;
 };
 
 type EditGroupViewState = {
@@ -20,6 +24,7 @@ type EditGroupViewState = {
 		rest: number;
 	}>;
 	selectedAddExercise: string;
+	selectedExercise: number;
 };
 
 export class EditGroupView extends React.Component<EditGroupViewProps, EditGroupViewState> {
@@ -29,26 +34,49 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 			name: '',
 			exercises: [],
 			selectedAddExercise: '1',
+			selectedExercise: 0,
 		};
 	}
 
-	private onAddExercise = (e: FormEvent): void => {
+	private onAddExercise = (e: FormEvent<HTMLButtonElement>): void => {
 		e.preventDefault();
 
-		this.setState((state: EditGroupViewState) => {
-			return state;
-		});
+		const exerciseId = this.state.selectedAddExercise;
+		console.log(exerciseId);
+		const exercise = this.props.exerciseStore.find((value) => value.id === exerciseId);
+		if (exercise) {
+			this.setState((state: EditGroupViewState) => {
+				const exercises = [
+					...state.exercises,
+					{
+						exerciseId,
+						exerciseName: exercise.name,
+						duration: 0,
+						count: 0,
+						rest: 0,
+					},
+				];
+
+				return {
+					...state,
+					exercises,
+					selectedExercise: exercises.length - 1,
+				};
+			});
+		}
 	};
 
-	private onSelectExerciseChange = (e: any): void => {
+	private onSelectExerciseChange = (e: FormEvent<HTMLSelectElement>): void => {
 		e.preventDefault();
-		console.log(e.target);
-		this.setState((state:EditGroupViewState) => {
-			return {
-				selectedAddExercise: e.target.value,
-			}
-		})
-	}
+		const value = e.target.value;
+		if (this.state.selectedAddExercise !== value) {
+			this.setState(() => {
+				return {
+					selectedAddExercise: value,
+				};
+			});
+		}
+	};
 
 	public render(): ReactElement {
 		return (
@@ -56,12 +84,17 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 				<h1>Edit Group</h1>
 				<form id="group_form">
 					<input type="text" placeholder="Name" autoFocus />
-					<GroupExerciseView />
-					<GroupExerciseForm exerciseId="1" onChange={() => {}} />
+					{this.state.exercises.map((exercise, index) => {
+						return this.state.selectedExercise === index ? (
+							<GroupExerciseForm exerciseId={exercise.exerciseId} onChange={() => {}} />
+						) : (
+							<GroupExerciseView {...exercise} />
+						);
+					})}
 					<div>
 						<label htmlFor="exercise">Add an exercise:</label>
 						<select name="exercises" id="exercise" value={this.state.selectedAddExercise} onChange={this.onSelectExerciseChange}>
-							{this.props.exercises.map((exercise) => {
+							{this.props.exerciseStore.map((exercise) => {
 								return <option value={exercise.id}>{exercise.name}</option>;
 							})}
 						</select>
