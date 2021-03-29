@@ -37,7 +37,12 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 		return (
 			<div>
 				<p>Dashboard</p>
-				<a>New Circuit</a>
+				<Link to="/addcircuit">
+					New Circuit
+				</Link>
+				<Link to="/addexercise">
+					Add Exercise
+				</Link>
 				<CircuitListView circuits={this.props.circuits} onSelect={this.onCircuitClicked} />
 				<div id="exercises">
 					<h2>Exercises</h2>
