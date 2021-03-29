@@ -14,6 +14,7 @@ type GroupExerciseFormProps = {
 	count: number;
 	rest: number;
 	onChange: (exercise: GroupExerciseFormData) => void;
+	onDelete: () => void;
 };
 
 type GroupExerciseFormState = {
