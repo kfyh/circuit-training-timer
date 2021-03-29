@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { FormEvent, ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ExerciseGroup, Exercise } from '../../types/circuits';
@@ -15,6 +15,7 @@ type AddCircuitViewState = {
 	name: string;
 	exerciseGroups: Array<ExerciseGroup>;
 	repetitions: number;
+	newGroupName: string;
 };
 
 export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCircuitViewState> {
@@ -44,8 +45,41 @@ export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCirc
 				},
 			],
 			repetitions: 1,
+			newGroupName: 'Group Name',
 		};
 	}
+
+	private onNewGroupNameChange = (e: FormEvent<HTMLInputElement>): void => {
+		e.preventDefault();
+		const newGroupName = e.target.value;
+		if (this.state.newGroupName !== newGroupName) {
+			this.setState(() => {
+				return {
+					newGroupName,
+				};
+			});
+		}
+	};
+
+	private addGroup = (e: FormEvent<HTMLButtonElement>): void => {
+		e.preventDefault();
+		const name = this.state.newGroupName;
+		this.setState((state: AddCircuitViewState) => {
+			const exerciseGroups = [
+				...this.state.exerciseGroups,
+				{
+					name,
+					exercises: [],
+					repetitions: 1,
+					rest: 0,
+				}
+			];
+			return {
+				...state,
+				exerciseGroups,
+			};
+		});
+	};
 
 	public render(): ReactElement {
 		return (
@@ -57,13 +91,9 @@ export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCirc
 				})}
 				<EditGroupView exerciseStore={this.props.exercises} />
 				<div>
-					<input type='text' placeholder='Group'
-						value={this.state.amount}
-						onChange={this.onAmountChange}
-					/>
-					<button onClick={this.removeExpense}>Remove</button>
+					<input type="text" placeholder="Group" value={this.state.newGroupName} onChange={this.onNewGroupNameChange} />
+					<button onClick={this.addGroup}>Add Group</button>
 				</div>
-
 			</div>
 		);
 	}

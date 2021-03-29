@@ -1,11 +1,11 @@
 import React, { FormEvent, ReactElement } from 'react';
 import { Exercise } from 'src/types/circuits';
-import { GroupExerciseForm } from './GroupExerciseForm';
+import { GroupExerciseForm, GroupExerciseFormData } from './GroupExerciseForm';
 
-const GroupExerciseView = ({ exerciseName, duration, count, rest }) => {
+const GroupExerciseView = ({ exerciseName, duration, count, rest, onSelect }) => {
 	return (
-		<div>
-			{exerciseName}: duration: {duration}, count: {count}, rest: {rest}
+		<div onClick={onSelect}>
+			{exerciseName} - duration: {duration}, count: {count}, rest: {rest}
 		</div>
 	);
 };
@@ -66,6 +66,26 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 		}
 	};
 
+	private onExerciseChange = (index: number, data: GroupExerciseFormData) => {
+		this.setState((state: EditGroupViewState) => {
+			const exercises = state.exercises.map((exercise, exerciseIndex) => {
+				if (exerciseIndex === index) {
+					return {
+						...exercise,
+						...data,
+					};
+				}
+
+				return exercise;
+			});
+
+			return {
+				...state,
+				exercises,
+			};
+		});
+	};
+
 	private onSelectExerciseChange = (e: FormEvent<HTMLSelectElement>): void => {
 		e.preventDefault();
 		const value = e.target.value;
@@ -86,9 +106,24 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 					<input type="text" placeholder="Name" autoFocus />
 					{this.state.exercises.map((exercise, index) => {
 						return this.state.selectedExercise === index ? (
-							<GroupExerciseForm exerciseId={exercise.exerciseId} onChange={() => {}} />
+							<GroupExerciseForm
+								{...exercise}
+								onChange={(data) => {
+									this.onExerciseChange(index, data);
+								}}
+								onDelete={() => {}}
+							/>
 						) : (
-							<GroupExerciseView {...exercise} />
+							<GroupExerciseView
+								{...exercise}
+								onSelect={() => {
+									this.setState(() => {
+										return {
+											selectedExercise: index,
+										};
+									});
+								}}
+							/>
 						);
 					})}
 					<div>
