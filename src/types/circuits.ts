@@ -89,6 +89,11 @@ export type FlattenedExercise = {
 	rest: number;
 };
 
+export const NullExercise: Exercise = {
+	id: '0',
+	name: 'null',
+};
+
 export const NullFlattenedExercise: FlattenedExercise = {
 	id: '',
 	name: 'null',

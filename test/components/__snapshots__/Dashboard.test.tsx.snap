@@ -34,6 +34,7 @@ exports[`Given circuits, dashboard displays correctly 1`] = `
     onSelect={[Function]}
   />
   <ExerciseListView
+    onEdit={[Function]}
     onSelect={[Function]}
   />
 </div>

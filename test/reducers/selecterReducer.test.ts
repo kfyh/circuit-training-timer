@@ -1,5 +1,5 @@
 import { ACTION_TYPES, ISelectorAction, ISelectorReducerState, selectorReducer } from '../../src/reducers/selectorReducer';
-import { circuit, exercise, exerciseGroup, existingState } from '../fixtures/exerciseFixtures';
+import { circuit, exercise, existingState } from '../fixtures/exerciseFixtures';
 
 
 
@@ -22,7 +22,43 @@ describe('When add exercise', () =>{
         const result = selectorReducer(existingState, addExerciseAction);
         expect(result).toStrictEqual(existingState);
     });
+});
 
+describe('When edit exercise', () => {
+    test('Given edited exercise, then exercise edited', () => {
+        const edited = { id: '0', name: 'edited exercise' };
+        const editExerciseAction: ISelectorAction = {
+            type: ACTION_TYPES.EDIT_EXERCISE,
+            exercise: edited
+        };
+    
+        const result = selectorReducer(existingState, editExerciseAction);
+        result.exercises.map((exercise) => {
+            if (exercise.id === edited.id) {
+                expect(exercise.name).toStrictEqual(edited.name);
+            }
+        });
+    });
+
+    test('Given no edited exercise, then state remains the same', () => {
+        const editExerciseAction: ISelectorAction = {
+            type: ACTION_TYPES.EDIT_EXERCISE,
+        };
+    
+        const result = selectorReducer(existingState, editExerciseAction);
+        expect(result).toStrictEqual(existingState);
+    });
+
+    test('If exercise id does not exist, then exercise edited', () => {
+        const edited = { id: 'invalid', name: 'edited exercise' };
+        const editExerciseAction: ISelectorAction = {
+            type: ACTION_TYPES.EDIT_EXERCISE,
+            exercise: edited
+        };
+    
+        const result = selectorReducer(existingState, editExerciseAction);
+        expect(result).toStrictEqual(existingState);
+    });
 });
 
 describe('When add circuit', () => {

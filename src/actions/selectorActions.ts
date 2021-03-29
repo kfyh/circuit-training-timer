@@ -25,3 +25,10 @@ export const addExercise = (exercise: Exercise | Array<Exercise>): ISelectorActi
 		exercises,
 	};
 };
+
+export const editExercise = (exercise: Exercise): ISelectorAction => {
+	return {
+		type: ACTION_TYPES.EDIT_EXERCISE,
+		exercise,
+	};
+};

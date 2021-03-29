@@ -2,6 +2,7 @@ import { Circuit, Exercise, ExerciseGroup } from '../types/circuits';
 
 export enum ACTION_TYPES {
 	ADD_EXERCISE = 'ADD_EXERCISE',
+	EDIT_EXERCISE = 'EDIT_EXERCISE',
 	ADD_CIRCUIT = 'ADD_CIRCUIT',
 	SELECT_CIRCUIT = 'SELECT_CIRCUIT',
 }
@@ -9,6 +10,7 @@ export enum ACTION_TYPES {
 export interface ISelectorAction {
 	type: ACTION_TYPES;
 	circuit?: Circuit;
+	exercise?: Exercise;
 	exercises?: Array<Exercise>;
 	exerciseGroups?: Array<ExerciseGroup>;
 }
@@ -31,11 +33,22 @@ export const selectorReducer = (state: ISelectorReducerState = selectorReducerDe
 			if (action.exercises === undefined) {
 				return state;
 			}
-			const exercises = [...state.exercises, ...action.exercises];
 			return {
 				...state,
-				exercises,
+				exercises: [...state.exercises, ...action.exercises],
 			};
+		case ACTION_TYPES.EDIT_EXERCISE:
+			if (action.exercise) {
+				const edited = action.exercise;
+				return {
+					...state,
+					exercises: state.exercises.map<Exercise>((exercise) => {
+						return exercise.id === edited.id ? edited : exercise;
+					}),
+				};
+			} else {
+				return state;
+			}
 		case ACTION_TYPES.ADD_CIRCUIT:
 			if (action.circuit === undefined) {
 				return state;

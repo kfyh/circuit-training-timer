@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { History } from 'history';
 import { StartStopButton, TimeLabel, ExerciseLabel } from './timer';
 import { FlattenedCircuitController } from '../controllers';
@@ -50,9 +50,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 				<ExerciseLabel exercise={exercise} isResting={this.state.isResting} />
 				<TimeLabel time={this.state.timeLeft} isResting={this.state.isResting} />
 				<StartStopButton isRunning={this.state.isRunning} onClick={this.handleClick} />
-				<NavLink to="/" exact={true}>
-					Home
-				</NavLink>
+				<Link to="/">Home</Link>
 			</div>
 		);
 	}
@@ -111,7 +109,7 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 			this.setState({
 				timeLeft: values.timeLeft,
 				currentIndex: values.index,
-				isResting: values.isResting
+				isResting: values.isResting,
 			});
 
 			if (this.state.isRunning) {
@@ -134,8 +132,11 @@ export class CircuitTimer extends React.Component<CircuitTimerProps, CircuitTime
 }
 
 const mapStateToProps = (state: ISelectorReducerState) => {
+	const { id } = useParams<{ id: string }>();
+	let circuit = state.circuits.find((circuit) => circuit.id === id);
+	circuit = circuit ? circuit : state.currentCircuit;
 	return {
-		flattenedCircuit: flattenCircuit(state.currentCircuit, state.exercises),
+		flattenedCircuit: flattenCircuit(circuit, state.exercises),
 	};
 };
 
