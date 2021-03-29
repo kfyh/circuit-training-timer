@@ -7,11 +7,11 @@ import { addExercise } from '../../actions/selectorActions';
 import { GroupView } from '../selector/GroupView';
 import { EditGroupView, EditGroupViewData } from './EditGroupView';
 
-type AddCircuitViewProps = {
+type AddCircuitPageProps = {
 	exercises: Array<Exercise>;
 };
 
-type AddCircuitViewState = {
+type AddCircuitPageState = {
 	name: string;
 	exerciseGroups: Array<ExerciseGroup>;
 	repetitions: number;
@@ -19,8 +19,8 @@ type AddCircuitViewState = {
 	newGroupName: string;
 };
 
-export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCircuitViewState> {
-	constructor(props: AddCircuitViewProps) {
+export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCircuitPageState> {
+	constructor(props: AddCircuitPageProps) {
 		super(props);
 		this.state = {
 			name: 'new circuit',
@@ -33,7 +33,7 @@ export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCirc
 
 	private onNewGroupNameChange = (e: FormEvent<HTMLInputElement>): void => {
 		e.preventDefault();
-		const newGroupName = e.target.value;
+		const newGroupName = e.currentTarget.value;
 		if (this.state.newGroupName !== newGroupName) {
 			this.setState(() => {
 				return {
@@ -46,7 +46,7 @@ export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCirc
 	private addGroup = (e: FormEvent<HTMLButtonElement>): void => {
 		e.preventDefault();
 		const name = this.state.newGroupName;
-		this.setState((state: AddCircuitViewState) => {
+		this.setState((state: AddCircuitPageState) => {
 			const exerciseGroups = [
 				...this.state.exerciseGroups,
 				{
@@ -65,7 +65,7 @@ export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCirc
 	};
 
 	private onGroupChange = (index: number, data: EditGroupViewData) => {
-		this.setState((state: AddCircuitViewState) => {
+		this.setState((state: AddCircuitPageState) => {
 			const exerciseGroups = state.exerciseGroups.map((group, groupIndex) => {
 				if (groupIndex === index) {
 					return {
@@ -99,6 +99,7 @@ export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCirc
 				{this.state.exerciseGroups.map((group, index) => {
 					return this.state.selectedGroup === index ? (
 						<EditGroupView
+							key={index}
 							exerciseGroup={group}
 							exerciseStore={this.props.exercises}
 							onChange={(data) => {
@@ -107,6 +108,7 @@ export class AddCircuitPage extends React.Component<AddCircuitViewProps, AddCirc
 						/>
 					) : (
 						<GroupView
+							key={index}
 							group={group}
 							exerciseStore={this.props.exercises}
 							onClick={() => {

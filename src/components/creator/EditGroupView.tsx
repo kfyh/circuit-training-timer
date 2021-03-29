@@ -2,7 +2,15 @@ import React, { FormEvent, ReactElement } from 'react';
 import { Exercise, ExerciseGroup } from 'src/types/circuits';
 import { GroupExerciseForm, GroupExerciseFormData } from './GroupExerciseForm';
 
-const GroupExerciseView = ({ exerciseName, duration, count, rest, onSelect }) => {
+type GroupExerciseViewProps = {
+	exerciseName: string;
+	duration: number;
+	count: number;
+	rest: number;
+	onSelect: () => void;
+};
+
+const GroupExerciseView = ({ exerciseName, duration, count, rest, onSelect }: GroupExerciseViewProps) => {
 	return (
 		<div onClick={onSelect}>
 			{exerciseName} - duration: {duration}, count: {count}, rest: {rest}
@@ -20,6 +28,7 @@ export type EditGroupViewData = {
 		rest: number;
 	}>;
 };
+
 type EditGroupViewProps = {
 	exerciseGroup: ExerciseGroup;
 	exerciseStore: Array<Exercise>;
@@ -60,7 +69,6 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 		e.preventDefault();
 
 		const exerciseId = this.state.selectedAddExercise;
-		console.log(exerciseId);
 		const exercise = this.props.exerciseStore.find((value) => value.id === exerciseId);
 		if (exercise) {
 			this.setState((state: EditGroupViewState) => {
@@ -113,14 +121,12 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 
 	private onSelectExerciseChange = (e: FormEvent<HTMLSelectElement>): void => {
 		e.preventDefault();
-		const value = e.target.value;
-		if (this.state.selectedAddExercise !== value) {
-			this.setState(() => {
-				return {
-					selectedAddExercise: value,
-				};
-			});
-		}
+		const value = e.currentTarget.value;
+		this.setState(() => {
+			return {
+				selectedAddExercise: value,
+			};
+		});
 	};
 
 	private onSaveChange = (e: FormEvent<HTMLButtonElement>): void => {
@@ -130,36 +136,56 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 
 	private onNameChange = (e: FormEvent<HTMLInputElement>): void => {
 		e.preventDefault();
-		const name = e.target.value;
+		const name = e.currentTarget.value;
 		this.setState((state: EditGroupViewState) => {
 			const formData = {
 				...state.formData,
 				name,
-			}
+			};
+
 			return {
 				formData,
 			};
 		});
 	};
 
+	private removeExercise = (exerciseIndex: number): void => {
+		this.setState((state: EditGroupViewState) => {
+			const exercises = state.formData.exercises.filter((_exercise, index) => {
+				return exerciseIndex !== index;
+			});
+			const formData = {
+				...state.formData,
+				exercises,
+			};
+
+			return {
+				formData,
+			};
+		});
+	};
 	public render(): ReactElement {
 		return (
 			<div>
 				<h1>Editing {this.props.exerciseGroup.name}</h1>
 				<form id="group_form">
 					<label htmlFor="name">Name:</label>
-					<input type="text" id='name' placeholder="Name" value={this.state.formData.name} onChange={this.onNameChange} autoFocus />
+					<input type="text" id="name" placeholder="Name" value={this.state.formData.name} onChange={this.onNameChange} autoFocus />
 					{this.state.formData.exercises.map((exercise, index) => {
 						return this.state.selectedExercise === index ? (
 							<GroupExerciseForm
+								key={index}
 								{...exercise}
 								onChange={(data) => {
 									this.onExerciseChange(index, data);
 								}}
-								onDelete={() => {}}
+								onRemove={() => {
+									this.removeExercise(index);
+								}}
 							/>
 						) : (
 							<GroupExerciseView
+								key={index}
 								{...exercise}
 								onSelect={() => {
 									this.setState(() => {
@@ -175,7 +201,11 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 						<label htmlFor="exercise">Add an exercise:</label>
 						<select name="exercises" id="exercise" value={this.state.selectedAddExercise} onChange={this.onSelectExerciseChange}>
 							{this.props.exerciseStore.map((exercise) => {
-								return <option value={exercise.id}>{exercise.name}</option>;
+								return (
+									<option key={exercise.id} value={exercise.id}>
+										{exercise.name}
+									</option>
+								);
 							})}
 						</select>
 						<button onClick={this.onAddExercise}>Add Exercise</button>

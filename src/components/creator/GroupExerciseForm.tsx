@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { FormEvent, ReactElement } from 'react';
 
 export type GroupExerciseFormData = {
 	exerciseId: string;
@@ -14,7 +14,7 @@ type GroupExerciseFormProps = {
 	count: number;
 	rest: number;
 	onChange: (exercise: GroupExerciseFormData) => void;
-	onDelete: () => void;
+	onRemove: () => void;
 };
 
 type GroupExerciseFormState = {
@@ -33,8 +33,8 @@ export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, G
 		};
 	}
 
-	private onDurationChange = (e) => {
-		const duration = e.target.value;
+	private onDurationChange = (e: FormEvent<HTMLInputElement>): void => {
+		const duration = Number.parseInt(e.currentTarget.value);
 		this.setState(() => ({ duration }));
 		this.props.onChange({
 			exerciseId: this.props.exerciseId,
@@ -43,8 +43,8 @@ export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, G
 		});
 	};
 
-	private onCountChange = (e) => {
-		const count = e.target.value;
+	private onCountChange = (e: FormEvent<HTMLInputElement>): void => {
+		const count = Number.parseInt(e.currentTarget.value);
 		this.setState(() => ({ count }));
 		this.props.onChange({
 			exerciseId: this.props.exerciseId,
@@ -53,8 +53,8 @@ export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, G
 		});
 	};
 
-	private onRestChange = (e) => {
-		const rest = e.target.value;
+	private onRestChange = (e: FormEvent<HTMLInputElement>): void => {
+		const rest = Number.parseInt(e.currentTarget.value);
 		this.setState(() => ({ rest }));
 		this.props.onChange({
 			exerciseId: this.props.exerciseId,
@@ -67,12 +67,13 @@ export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, G
 		return (
 			<div>
 				<p>{this.props.exerciseName}</p>
-				<label for="duration">Duration</label>
+				<label htmlFor="duration">Duration</label>
 				<input type="text" id="duration" placeholder="Duration" value={this.state.duration} onChange={this.onDurationChange} autoFocus />
-				<label for="duration">Count</label>
+				<label htmlFor="duration">Count</label>
 				<input type="text" id="count" placeholder="Count" value={this.state.count} onChange={this.onCountChange} />
-				<label for="duration">Rest</label>
+				<label htmlFor="duration">Rest</label>
 				<input type="text" id="rest" placeholder="Rest" value={this.state.rest} onChange={this.onRestChange} />
+				<button onClick={this.props.onRemove}>Remove</button>
 			</div>
 		);
 	}

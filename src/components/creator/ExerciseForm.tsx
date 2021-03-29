@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { FormEvent, ReactElement } from 'react';
 import { Exercise } from 'src/types/circuits';
 
 export type ExerciseFormData = {
@@ -32,20 +32,20 @@ export class ExerciseForm extends React.Component<ExerciseFormProps, ExerciseFor
 		}
 	}
 
-	private onNameChange = (e) => {
-		const name = e.target.value;
+	private onNameChange = (e: FormEvent<HTMLInputElement>) => {
+		const name = e.currentTarget.value;
 		this.setState(() => ({ name }));
 	};
 
-	private onDescriptionChange = (e) => {
-		const description = e.target.value;
+	private onDescriptionChange = (e: FormEvent<HTMLInputElement>) => {
+		const description = e.currentTarget.value;
 		this.setState(() => ({ description }));
 	};
 
 	public render(): ReactElement {
 		return (
 			<form
-				onSubmit={(e) => {
+				onSubmit={(e: FormEvent<HTMLFormElement>) => {
 					e.preventDefault();
 					this.props.onSubmit({ name: this.state.name, description: this.state.description });
 				}}
