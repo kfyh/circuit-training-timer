@@ -49,7 +49,7 @@ export class CreateCircuitView extends React.Component<CreateCircuitViewProps, C
 				{this.state.exerciseGroups.map((group) => {
 					return <GroupView {...group} />;
 				})}
-				<EditGroupView />
+				<EditGroupView exercises={this.props.exercises} />
 			</div>
 		);
 	}
@@ -59,4 +59,9 @@ const mapDispatchToProps = (dispatch: Dispatch<ISelectorAction>) => ({
 	addExercise: (exercise: Exercise) => dispatch(addExercise(exercise)),
 });
 
-export const ConnectedCreateCircuitView = connect(undefined, mapDispatchToProps)(CreateCircuitView);
+const mapStateToProps = (state: ISelectorReducerState) => {
+	return {
+		exercises: state.exercises,
+	};
+};
+export const ConnectedCreateCircuitView = connect(mapStateToProps, mapDispatchToProps)(CreateCircuitView);
