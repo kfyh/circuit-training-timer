@@ -15,7 +15,13 @@ export function ExerciseLabel(props: ExerciseLabelProps): ReactElement {
 			<p>
 				{exercise.groupName} ({exercise.groupRepIndex}/{exercise.groupRepetitions})
 			</p>
-			{ isResting ? <p>Rest</p> : <p>{excerciseLabel}</p> }
+			{isResting ? (
+				<p>Rest</p>
+			) : (
+				<p>
+					{excerciseLabel} {exercise.count && exercise.count > 0 && `x ${exercise.count}`}
+				</p>
+			)}
 		</div>
 	);
 }

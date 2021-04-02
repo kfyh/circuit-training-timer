@@ -25,25 +25,21 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 		this.props.history.push(`/timer/${circuit.id}`);
 	};
 
-	private onExerciseClicked = () => {
-		
-	};
+	private onExerciseClicked = () => {};
 
 	private onEditExercise = (exercise: Exercise): void => {
 		this.props.history.push(`/editexercise/${exercise.id}`);
-	}
+	};
 
 	public render(): ReactElement {
 		return (
 			<div>
-				<p>Dashboard</p>
-				<Link to="/addcircuit">
-					New Circuit
-				</Link>
-				<Link to="/addexercise">
-					Add Exercise
-				</Link>
-				<CircuitListView circuits={this.props.circuits} onSelect={this.onCircuitClicked} />
+				<h1>Dashboard</h1>
+				<div id="circuits">
+					<h2>Circuits</h2>
+					<Link to="/addcircuit">New Circuit</Link>
+					<CircuitListView circuits={this.props.circuits} onSelect={this.onCircuitClicked} />
+				</div>
 				<div id="exercises">
 					<h2>Exercises</h2>
 					<Link to="/addexercise">Add Exercise</Link>

@@ -18,7 +18,7 @@ type AddCircuitPageProps = {
 type AddCircuitPageState = {
 	name: string;
 	exerciseGroups: Array<ExerciseGroup>;
-	repetitions: number;
+	repetitions: string;
 	selectedGroup: number;
 	newGroupName: string;
 };
@@ -29,7 +29,7 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 		this.state = {
 			name: 'new circuit',
 			exerciseGroups: [],
-			repetitions: 1,
+			repetitions: '1',
 			selectedGroup: -1,
 			newGroupName: 'Group Name',
 		};
@@ -40,6 +40,17 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 		this.setState(() => {
 			return {
 				name,
+			};
+		});
+	};
+
+	private onRepetitionsChange = (e: FormEvent<HTMLInputElement>): void => {
+		e.preventDefault();
+		const repetitions = e.currentTarget.value;
+
+		this.setState(() => {
+			return {
+				repetitions,
 			};
 		});
 	};
@@ -79,12 +90,18 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 
 	private onGroupChange = (index: number, data: EditGroupViewData, keepFocus: boolean) => {
 		const selectedGroup = keepFocus ? index : -1;
+		const editedGroup = {
+			name: data.name,
+			exercises: data.exercises,
+			repetitions: parseInt(data.repetitions),
+			rest: parseInt(data.rest)
+		};
 		this.setState((state: AddCircuitPageState) => {
 			const exerciseGroups = state.exerciseGroups.map((group, groupIndex) => {
 				if (groupIndex === index) {
 					return {
 						...group,
-						...data,
+						...editedGroup,
 					};
 				}
 
@@ -112,7 +129,7 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 			id: uuid(),
 			name: this.state.name,
 			exerciseGroups: this.state.exerciseGroups,
-			repetitions: this.state.repetitions,
+			repetitions: parseInt(this.state.repetitions),
 		};
 
 		this.props.addCircuit(circuit);
@@ -124,7 +141,8 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 			<div>
 				<h1>{this.state.name ? this.state.name : 'New Circuit'}</h1>
 				<input type="text" id="name" placeholder="Name" value={this.state.name} onChange={this.onNameChange} autoFocus />
-				<p>Repetitions</p>
+				<label htmlFor="repetitions">Repetitions</label>
+				<input type="text" id="repetitions" placeholder="Repetitions" value={this.state.repetitions} onChange={this.onRepetitionsChange} />
 				{this.state.exerciseGroups.map((group, index) => {
 					return this.state.selectedGroup === index ? (
 						<EditGroupView
