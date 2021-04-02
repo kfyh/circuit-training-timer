@@ -1,14 +1,18 @@
 import React, { FormEvent, ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { ExerciseGroup, Exercise } from '../../types/circuits';
+import { v4 as uuid } from 'uuid';
+import { History } from 'history';
+import { ExerciseGroup, Exercise, Circuit } from '../../types/circuits';
 import { ISelectorAction, ISelectorReducerState } from '../../reducers';
-import { addExercise } from '../../actions/selectorActions';
+import { addCircuit } from '../../actions/selectorActions';
 import { GroupView } from '../selector/GroupView';
 import { EditGroupView, EditGroupViewData } from './EditGroupView';
 
 type AddCircuitPageProps = {
 	exercises: Array<Exercise>;
+	addCircuit: (circuit: Circuit) => void;
+	history: History;
 };
 
 type AddCircuitPageState = {
@@ -26,10 +30,19 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 			name: 'new circuit',
 			exerciseGroups: [],
 			repetitions: 1,
-			selectedGroup: 0,
+			selectedGroup: -1,
 			newGroupName: 'Group Name',
 		};
 	}
+	private onNameChange = (e: FormEvent<HTMLInputElement>): void => {
+		e.preventDefault();
+		const name = e.currentTarget.value;
+		this.setState(() => {
+			return {
+				name,
+			};
+		});
+	};
 
 	private onNewGroupNameChange = (e: FormEvent<HTMLInputElement>): void => {
 		e.preventDefault();
@@ -64,7 +77,8 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 		});
 	};
 
-	private onGroupChange = (index: number, data: EditGroupViewData) => {
+	private onGroupChange = (index: number, data: EditGroupViewData, keepFocus: boolean) => {
+		const selectedGroup = keepFocus ? index : -1;
 		this.setState((state: AddCircuitPageState) => {
 			const exerciseGroups = state.exerciseGroups.map((group, groupIndex) => {
 				if (groupIndex === index) {
@@ -79,6 +93,7 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 
 			return {
 				exerciseGroups,
+				selectedGroup,
 			};
 		});
 	};
@@ -91,10 +106,24 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 		});
 	};
 
+	private saveCircuit = (e: FormEvent<HTMLButtonElement>): void => {
+		e.preventDefault();
+		const circuit: Circuit = {
+			id: uuid(),
+			name: this.state.name,
+			exerciseGroups: this.state.exerciseGroups,
+			repetitions: this.state.repetitions,
+		};
+
+		this.props.addCircuit(circuit);
+		this.props.history.goBack();
+	};
+
 	public render(): ReactElement {
 		return (
 			<div>
-				<h1>New Circuit</h1>
+				<h1>{this.state.name ? this.state.name : 'New Circuit'}</h1>
+				<input type="text" id="name" placeholder="Name" value={this.state.name} onChange={this.onNameChange} autoFocus />
 				<p>Repetitions</p>
 				{this.state.exerciseGroups.map((group, index) => {
 					return this.state.selectedGroup === index ? (
@@ -102,8 +131,8 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 							key={index}
 							exerciseGroup={group}
 							exerciseStore={this.props.exercises}
-							onChange={(data) => {
-								this.onGroupChange(index, data);
+							onChange={(data: EditGroupViewData, keepFocus: boolean) => {
+								this.onGroupChange(index, data, keepFocus);
 							}}
 						/>
 					) : (
@@ -121,13 +150,14 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 					<input type="text" placeholder="Group" value={this.state.newGroupName} onChange={this.onNewGroupNameChange} />
 					<button onClick={this.addGroup}>Add Group</button>
 				</div>
+				<button onClick={this.saveCircuit}>Save Circuit</button>
 			</div>
 		);
 	}
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<ISelectorAction>) => ({
-	addExercise: (exercise: Exercise) => dispatch(addExercise(exercise)),
+	addCircuit: (circuit: Circuit) => dispatch(addCircuit(circuit)),
 });
 
 const mapStateToProps = (state: ISelectorReducerState) => {

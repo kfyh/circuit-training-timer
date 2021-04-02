@@ -2,6 +2,8 @@ import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { History } from 'history';
 import { Dispatch } from 'redux';
+import { v4 as uuid } from 'uuid';
+
 import { Exercise } from '../../types/circuits';
 import { ISelectorAction } from '../../reducers';
 import { addExercise } from '../../actions/selectorActions';
@@ -15,7 +17,7 @@ type AddExercisePageProps = {
 export class AddExercisePage extends React.Component<AddExercisePageProps> {
 	private addExercise = (exerciseFormData: ExerciseFormData) => {
 		this.props.addExercise({
-			id: '1',
+			id: uuid(),
 			...exerciseFormData,
 		});
 		this.props.history.goBack();

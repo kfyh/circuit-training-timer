@@ -22,6 +22,7 @@ export class GroupView extends React.Component<GroupViewProps> {
 		return (
 			<div onClick={this.props.onClick}>
 				<h1>{this.props.group.name}</h1>
+				{this.props.group.exercises.length <= 0 && <p>No Exercises Added</p>}
 				{this.props.group.exercises.map(({ exerciseId, duration, count, rest }) => {
 					const exerciseName = this.props.exerciseStore.reduce<string>((acc: string, curr: Exercise) => {
 						return curr.id === exerciseId ? curr.name : acc;
@@ -29,15 +30,15 @@ export class GroupView extends React.Component<GroupViewProps> {
 
 					return (
 						<div>
-							<p>{exerciseName}</p>
-							<p>Duration: {duration}</p>
-							<p>Count: {count}</p>
-							<p>Name: {rest}</p>
+							<p>
+								{exerciseName} - Duration: {duration}, Count: {count}, Name: {rest}
+							</p>
 						</div>
 					);
 				})}
-				<p>Repetitions: {this.props.group.repetitions}</p>
-				<p>Rest: {this.props.group.rest}</p>
+				<p>
+					Repetitions: {this.props.group.repetitions}, Rest: {this.props.group.rest}
+				</p>
 			</div>
 		);
 	}

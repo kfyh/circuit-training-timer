@@ -1,10 +1,10 @@
 import React, { FormEvent, ReactElement } from 'react';
 
 export type GroupExerciseFormData = {
-	exerciseId: string;
-	duration: number;
-	count: number;
-	rest: number;
+	exerciseId?: string;
+	duration?: number;
+	count?: number;
+	rest?: number;
 };
 
 type GroupExerciseFormProps = {
@@ -18,49 +18,52 @@ type GroupExerciseFormProps = {
 };
 
 type GroupExerciseFormState = {
-	duration: number;
-	count: number;
-	rest: number;
+	duration: string;
+	count: string;
+	rest: string;
 };
 
 export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, GroupExerciseFormState> {
 	constructor(props: GroupExerciseFormProps) {
 		super(props);
 		this.state = {
-			duration: props.duration,
-			count: props.count,
-			rest: props.rest,
+			duration: props.duration.toString(),
+			count: props.count.toString(),
+			rest: props.rest.toString(),
 		};
 	}
 
 	private onDurationChange = (e: FormEvent<HTMLInputElement>): void => {
-		const duration = Number.parseInt(e.currentTarget.value);
-		this.setState(() => ({ duration }));
-		this.props.onChange({
-			exerciseId: this.props.exerciseId,
-			...this.state,
-			duration,
-		});
+		const value = e.currentTarget.value;
+		const duration = Number.parseInt(value);
+		this.setState(() => ({ duration: value }));
+		if (!isNaN(duration)) {
+			this.props.onChange({
+				duration,
+			});
+		}
 	};
 
 	private onCountChange = (e: FormEvent<HTMLInputElement>): void => {
-		const count = Number.parseInt(e.currentTarget.value);
-		this.setState(() => ({ count }));
-		this.props.onChange({
-			exerciseId: this.props.exerciseId,
-			...this.state,
-			count,
-		});
+		const value = e.currentTarget.value;
+		const count = Number.parseInt(value);
+		this.setState(() => ({ count: value }));
+		if (!isNaN(count)) {
+			this.props.onChange({
+				count,
+			});
+		}
 	};
 
 	private onRestChange = (e: FormEvent<HTMLInputElement>): void => {
-		const rest = Number.parseInt(e.currentTarget.value);
-		this.setState(() => ({ rest }));
-		this.props.onChange({
-			exerciseId: this.props.exerciseId,
-			...this.state,
-			rest,
-		});
+		const value = e.currentTarget.value;
+		const rest = Number.parseInt(value);
+		this.setState(() => ({ rest: value }));
+		if (!isNaN(rest)) {
+			this.props.onChange({
+				rest,
+			});
+		}
 	};
 
 	public render(): ReactElement {

@@ -32,7 +32,7 @@ export type EditGroupViewData = {
 type EditGroupViewProps = {
 	exerciseGroup: ExerciseGroup;
 	exerciseStore: Array<Exercise>;
-	onChange: (data: EditGroupViewData) => void;
+	onChange: (data: EditGroupViewData, keepFocus: boolean) => void;
 };
 
 type EditGroupViewState = {
@@ -131,7 +131,7 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 
 	private onSaveChange = (e: FormEvent<HTMLButtonElement>): void => {
 		e.preventDefault();
-		this.props.onChange(this.state.formData);
+		this.props.onChange(this.state.formData, false);
 	};
 
 	private onNameChange = (e: FormEvent<HTMLInputElement>): void => {
