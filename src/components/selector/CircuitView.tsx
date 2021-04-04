@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Circuit } from '../../types/circuits';
+import Button from '@material-ui/core/Button';
 
 type CircuitProps = {
 	circuit: Circuit;
@@ -15,14 +16,15 @@ export class CircuitView extends React.Component<CircuitProps, Record<string, ne
 		return (
 			<div>
 				{this.props.circuit.name}
-				<button
+				<Button
 					onClick={(e) => {
 						e.preventDefault();
 						this.props.onClick(this.props.circuit);
 					}}
+					variant="contained"
 				>
 					Select
-				</button>
+				</Button>
 			</div>
 		);
 	}
