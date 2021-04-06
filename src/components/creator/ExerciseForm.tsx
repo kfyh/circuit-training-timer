@@ -1,3 +1,4 @@
+import { Button, Container, TextField } from '@material-ui/core';
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Exercise } from 'src/types/circuits';
 
@@ -11,19 +12,14 @@ type ExerciseFormProps = {
 	onSubmit: (exercise: ExerciseFormData) => void;
 };
 
-type ExerciseFormState = {
-	name: string;
-	description: string;
-};
-
 export const ExerciseForm = (props: ExerciseFormProps): ReactElement => {
 	const initialName = props.exercise ? props.exercise.name : '';
 	const initialDescription = props.exercise ? (props.exercise.description ? props.exercise.description : '') : '';
 	const [name, setName] = useState(initialName);
 	const [description, setDescription] = useState(initialDescription);
 	return (
-		<div>
-			<input
+		<Container maxWidth="md">
+			<TextField
 				type="text"
 				placeholder="Name"
 				value={name}
@@ -33,7 +29,7 @@ export const ExerciseForm = (props: ExerciseFormProps): ReactElement => {
 				}}
 				autoFocus
 			/>
-			<input
+			<TextField
 				type="text"
 				placeholder="Description"
 				value={description}
@@ -42,14 +38,14 @@ export const ExerciseForm = (props: ExerciseFormProps): ReactElement => {
 					setDescription(e.currentTarget.value);
 				}}
 			/>
-			<button
+			<Button
 				onClick={(e: FormEvent<HTMLButtonElement>) => {
 					e.preventDefault();
 					props.onSubmit({ name, description });
 				}}
 			>
 				Submit
-			</button>
-		</div>
+			</Button>
+		</Container>
 	);
 };

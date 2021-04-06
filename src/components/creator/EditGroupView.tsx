@@ -1,4 +1,5 @@
-import React, { FormEvent, ReactElement } from 'react';
+import { Box, Button, Container, Card, Select, TextField, Typography } from '@material-ui/core';
+import React, { ChangeEvent, FormEvent, MouseEvent, ReactElement } from 'react';
 import { Exercise, ExerciseGroup } from 'src/types/circuits';
 import { GroupExerciseForm, GroupExerciseFormData } from './GroupExerciseForm';
 
@@ -12,9 +13,9 @@ type GroupExerciseViewProps = {
 
 const GroupExerciseView = ({ exerciseName, duration, count, rest, onSelect }: GroupExerciseViewProps) => {
 	return (
-		<div onClick={onSelect}>
+		<Card onClick={onSelect}>
 			{exerciseName} - duration: {duration}, count: {count}, rest: {rest}
-		</div>
+		</Card>
 	);
 };
 
@@ -64,14 +65,12 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 				repetitions: 1,
 				rest: 0,
 			},
-			selectedAddExercise: '1',
+			selectedAddExercise: this.props.exerciseStore[0].id,
 			selectedExercise: 0,
 		};
 	}
 
-	private onAddExercise = (e: FormEvent<HTMLButtonElement>): void => {
-		e.preventDefault();
-
+	private onAddExercise = (): void => {
 		const exerciseId = this.state.selectedAddExercise;
 		const exercise = this.props.exerciseStore.find((value) => value.id === exerciseId);
 		if (exercise) {
@@ -123,24 +122,21 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 		});
 	};
 
-	private onSelectExerciseChange = (e: FormEvent<HTMLSelectElement>): void => {
-		e.preventDefault();
-		const value = e.currentTarget.value;
+	private onSelectExerciseChange = (e: ChangeEvent<{ name?: string; value: unknown }>): void => {
+		const value = e.target.value;
 		this.setState(() => {
 			return {
 				selectedAddExercise: value,
-			};
+			} as EditGroupViewState;
 		});
 	};
 
-	private onSaveChange = (e: FormEvent<HTMLButtonElement>): void => {
-		e.preventDefault();
+	private onSaveChange = (): void => {
 		this.props.onChange(this.state.formData, false);
 	};
 
-	private onNameChange = (e: FormEvent<HTMLInputElement>): void => {
-		e.preventDefault();
-		const name = e.currentTarget.value;
+	private onNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
+		const name = e.target.value;
 		this.setState((state: EditGroupViewState) => {
 			const formData = {
 				...state.formData,
@@ -153,9 +149,8 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 		});
 	};
 
-	private onRepetitionsChange = (e: FormEvent<HTMLInputElement>): void => {
-		e.preventDefault();
-		const value = e.currentTarget.value;
+	private onRepetitionsChange = (e: ChangeEvent<HTMLInputElement>): void => {
+		const value = e.target.value;
 		const repetitions = parseInt(value);
 
 		this.setState((state: EditGroupViewState) => {
@@ -170,9 +165,8 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 		});
 	};
 
-	private onRestChange = (e: FormEvent<HTMLInputElement>): void => {
-		e.preventDefault();
-		const value = e.currentTarget.value;
+	private onRestChange = (e: ChangeEvent<HTMLInputElement>): void => {
+		const value = e.target.value;
 		const rest = parseInt(value);
 
 		this.setState((state: EditGroupViewState) => {
@@ -202,59 +196,61 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 			};
 		});
 	};
+
 	public render(): ReactElement {
 		return (
-			<div>
-				<h1>Editing {this.props.exerciseGroup.name}</h1>
-				<form id="group_form">
-					<label htmlFor="name">Name:</label>
-					<input type="text" id="name" placeholder="Name" value={this.state.formData.name} onChange={this.onNameChange} autoFocus />
-					<label htmlFor="repetitions">Repetitions:</label>
-					<input type="number" id="repetitions" placeholder="Repetitions" value={this.state.formData.repetitions} onChange={this.onRepetitionsChange} />
-					<label htmlFor="rest">Rest:</label>
-					<input type="number" id="rest" placeholder="Rest" value={this.state.formData.rest} onChange={this.onRestChange} />
-					{this.state.formData.exercises.map((exercise, index) => {
-						return this.state.selectedExercise === index ? (
-							<GroupExerciseForm
-								key={index}
-								{...exercise}
-								onChange={(data) => {
-									this.onExerciseChange(index, data);
-								}}
-								onRemove={() => {
-									this.removeExercise(index);
-								}}
-							/>
-						) : (
-							<GroupExerciseView
-								key={index}
-								{...exercise}
-								onSelect={() => {
-									this.setState(() => {
-										return {
-											selectedExercise: index,
-										};
-									});
-								}}
-							/>
-						);
-					})}
-					<div>
-						<label htmlFor="exercise">Add an exercise:</label>
-						<select name="exercises" id="exercise" value={this.state.selectedAddExercise} onChange={this.onSelectExerciseChange}>
-							{this.props.exerciseStore.map((exercise) => {
-								return (
-									<option key={exercise.id} value={exercise.id}>
-										{exercise.name}
-									</option>
-								);
-							})}
-						</select>
-						<button onClick={this.onAddExercise}>Add Exercise</button>
-					</div>
-					<button onClick={this.onSaveChange}>Save Group</button>
-				</form>
-			</div>
+			<Container>
+				<Typography variant="h1">Editing {this.props.exerciseGroup.name}</Typography>
+				<TextField label="Name" type="text" id="name" placeholder="Name" value={this.state.formData.name} onChange={this.onNameChange} autoFocus />
+				<TextField
+					label="Repetitions"
+					type="number"
+					id="repetitions"
+					placeholder="1"
+					value={this.state.formData.repetitions}
+					onChange={this.onRepetitionsChange}
+				/>
+				<TextField label="Rest" type="number" id="rest" placeholder="0" value={this.state.formData.rest} onChange={this.onRestChange} />
+				{this.state.formData.exercises.map((exercise, index) => {
+					return this.state.selectedExercise === index ? (
+						<GroupExerciseForm
+							key={index}
+							{...exercise}
+							onChange={(data) => {
+								this.onExerciseChange(index, data);
+							}}
+							onRemove={() => {
+								this.removeExercise(index);
+							}}
+						/>
+					) : (
+						<GroupExerciseView
+							key={index}
+							{...exercise}
+							onSelect={() => {
+								this.setState(() => {
+									return {
+										selectedExercise: index,
+									};
+								});
+							}}
+						/>
+					);
+				})}
+				<Box>
+					<Select label="Add an exercise" name="exercises" id="exercise" value={this.state.selectedAddExercise} onChange={this.onSelectExerciseChange}>
+						{this.props.exerciseStore.map((exercise) => {
+							return (
+								<option key={exercise.id} value={exercise.id}>
+									{exercise.name}
+								</option>
+							);
+						})}
+					</Select>
+					<Button onClick={this.onAddExercise}>Add Exercise</Button>
+				</Box>
+				<Button onClick={this.onSaveChange}>Save Group</Button>
+			</Container>
 		);
 	}
 }

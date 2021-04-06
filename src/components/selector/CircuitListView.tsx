@@ -14,7 +14,7 @@ export const CircuitListView = ({ circuits, onSelect, onEdit }: CircuitListViewP
 		<Grid container spacing={2}>
 			{circuits.map((circuit) => {
 				return (
-					<Grid item>
+					<Grid item key={circuit.id}>
 						<CircuitView key={circuit.id} circuit={circuit} onSelect={onSelect} onEdit={onEdit} />
 					</Grid>
 				);

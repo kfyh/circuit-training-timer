@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactElement } from 'react';
+import React, { FormEvent, MouseEvent, ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RouteComponentProps } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { ExerciseGroup, Exercise, Circuit, NullCircuit } from '../../types/circu
 import { ISelectorAction, ISelectorReducerState } from '../../reducers';
 import { editCircuit } from '../../actions/selectorActions';
 import { CircuitForm, CircuitFormData } from './CircuitForm';
+import { Button, Container } from '@material-ui/core';
 
 interface EditCircuitPageProps extends RouteComponentProps<{ id: string }> {
 	circuit: Circuit;
@@ -35,7 +36,7 @@ export class EditCircuitPage extends React.Component<EditCircuitPageProps, EditC
 		});
 	};
 
-	private saveCircuit = (e: FormEvent<HTMLButtonElement>): void => {
+	private saveCircuit = (e: MouseEvent<HTMLButtonElement>): void => {
 		e.preventDefault();
 		const circuit: Circuit = {
 			id: this.props.circuit.id,
@@ -50,10 +51,12 @@ export class EditCircuitPage extends React.Component<EditCircuitPageProps, EditC
 
 	public render(): ReactElement {
 		return (
-			<div>
+			<Container>
 				<CircuitForm {...this.state} exercises={this.props.exercises} onChange={this.onChange} />
-				<button onClick={this.saveCircuit}>Save Circuit</button>
-			</div>
+				<Button variant="contained" color="primary" onClick={this.saveCircuit}>
+					Save Circuit
+				</Button>
+			</Container>
 		);
 	}
 }

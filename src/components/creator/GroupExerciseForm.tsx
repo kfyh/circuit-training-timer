@@ -1,4 +1,5 @@
-import React, { FormEvent, ReactElement } from 'react';
+import { Button, Container, TextField, Typography } from '@material-ui/core';
+import React, { ChangeEvent, ReactElement } from 'react';
 
 export type GroupExerciseFormData = {
 	exerciseId?: string;
@@ -17,63 +18,38 @@ type GroupExerciseFormProps = {
 	onRemove: () => void;
 };
 
-type GroupExerciseFormState = {
-	duration: number;
-	count: number;
-	rest: number;
-};
-
-export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, GroupExerciseFormState> {
+export class GroupExerciseForm extends React.Component<GroupExerciseFormProps> {
 	constructor(props: GroupExerciseFormProps) {
 		super(props);
-		this.state = {
-			duration: props.duration,
-			count: props.count,
-			rest: props.rest,
-		};
 	}
 
-	private onDurationChange = (e: FormEvent<HTMLInputElement>): void => {
+	private onDurationChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		const value = e.currentTarget.value;
 		const duration = Number.parseInt(value);
-		this.setState(() => ({ duration }));
 		this.props.onChange({ duration });
 	};
 
-	private onCountChange = (e: FormEvent<HTMLInputElement>): void => {
+	private onCountChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		const value = e.currentTarget.value;
 		const count = Number.parseInt(value);
-		this.setState(() => ({ count }));
-		if (!isNaN(count)) {
-			this.props.onChange({
-				count,
-			});
-		}
+		this.props.onChange({ count });
 	};
 
-	private onRestChange = (e: FormEvent<HTMLInputElement>): void => {
+	private onRestChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		const value = e.currentTarget.value;
 		const rest = Number.parseInt(value);
-		this.setState(() => ({ rest }));
-		if (!isNaN(rest)) {
-			this.props.onChange({
-				rest,
-			});
-		}
+		this.props.onChange({ rest });
 	};
 
 	public render(): ReactElement {
 		return (
-			<div>
-				<p>{this.props.exerciseName}</p>
-				<label htmlFor="duration">Duration</label>
-				<input type="number" id="duration" placeholder="Duration" value={this.state.duration} onChange={this.onDurationChange} autoFocus />
-				<label htmlFor="duration">Count</label>
-				<input type="number" id="count" placeholder="Count" value={this.state.count} onChange={this.onCountChange} />
-				<label htmlFor="duration">Rest</label>
-				<input type="number" id="rest" placeholder="Rest" value={this.state.rest} onChange={this.onRestChange} />
-				<button onClick={this.props.onRemove}>Remove</button>
-			</div>
+			<Container>
+				<Typography variant="h6">{this.props.exerciseName}</Typography>
+				<TextField label="duration" type="number" id="duration" placeholder="20" value={this.props.duration} onChange={this.onDurationChange} autoFocus />
+				<TextField label="Count" type="number" id="count" placeholder="1" value={this.props.count} onChange={this.onCountChange} />
+				<TextField label="Rest" type="number" id="rest" placeholder="0" value={this.props.rest} onChange={this.onRestChange} />
+				<Button onClick={this.props.onRemove}>Remove</Button>
+			</Container>
 		);
 	}
 }

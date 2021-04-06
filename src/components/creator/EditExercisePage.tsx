@@ -6,6 +6,7 @@ import { Exercise, NullExercise } from '../../types/circuits';
 import { ISelectorAction, ISelectorReducerState } from '../../reducers';
 import { editExercise } from '../../actions/selectorActions';
 import { ExerciseFormData, ExerciseForm } from './ExerciseForm';
+import { Container, Typography } from '@material-ui/core';
 
 interface EditExercisePageProps extends RouteComponentProps<{ id: string }> {
 	exercise: Exercise;
@@ -23,10 +24,10 @@ export class EditExercisePage extends React.Component<EditExercisePageProps> {
 
 	public render(): ReactElement {
 		return (
-			<div>
-				<h1>Edit Exercise: {this.props.exercise.name}</h1>
+			<Container>
+				<Typography variant="h1">Edit Exercise: {this.props.exercise.name}</Typography>
 				<ExerciseForm exercise={this.props.exercise} onSubmit={this.editExercise} />
-			</div>
+			</Container>
 		);
 	}
 }

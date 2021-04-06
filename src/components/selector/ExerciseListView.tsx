@@ -14,7 +14,7 @@ export const ExerciseListView = ({ exercises, onSelect, onEdit }: ExerciseListVi
 		<Grid container spacing={2}>
 			{exercises.map((exercise) => {
 				return (
-					<Grid item>
+					<Grid item key={exercise.id}>
 						<ExerciseIconView key={exercise.id} exercise={exercise} onSelect={onSelect} onEdit={onEdit} />
 					</Grid>
 				);

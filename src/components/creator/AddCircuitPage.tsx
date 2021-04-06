@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { v4 as uuid } from 'uuid';
 import { History } from 'history';
+import { Button, Container } from '@material-ui/core';
 import { ExerciseGroup, Exercise, Circuit } from '../../types/circuits';
 import { ISelectorAction, ISelectorReducerState } from '../../reducers';
 import { addCircuit } from '../../actions/selectorActions';
 import { CircuitForm, CircuitFormData } from './CircuitForm';
+
 
 type AddCircuitPageProps = {
 	exercises: Array<Exercise>;
@@ -32,7 +34,7 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 
 	private onChange = (data: CircuitFormData): void => {
 		this.setState(() => {
-			return { ...data };
+			return { ...data } as AddCircuitPageState;
 		});
 	};
 
@@ -51,10 +53,12 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 
 	public render(): ReactElement {
 		return (
-			<div>
+			<Container>
 				<CircuitForm {...this.state} exercises={this.props.exercises} onChange={this.onChange} />
-				<button onClick={this.saveCircuit}>Save Circuit</button>
-			</div>
+				<Button variant="contained" color="primary" onClick={this.saveCircuit}>
+					Save Circuit
+				</Button>
+			</Container>
 		);
 	}
 }

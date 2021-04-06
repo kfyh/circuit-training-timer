@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { History } from 'history';
 import { Dispatch } from 'redux';
 import { v4 as uuid } from 'uuid';
+import { Container, Typography } from '@material-ui/core';
 
 import { Exercise } from '../../types/circuits';
 import { ISelectorAction } from '../../reducers';
@@ -25,10 +26,10 @@ export class AddExercisePage extends React.Component<AddExercisePageProps> {
 
 	public render(): ReactElement {
 		return (
-			<div>
-				<h1>Add Exercise</h1>
+			<Container>
+				<Typography variant="h1">Add Exercise</Typography>
 				<ExerciseForm onSubmit={this.addExercise} />
-			</div>
+			</Container>
 		);
 	}
 }

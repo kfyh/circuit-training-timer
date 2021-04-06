@@ -1,4 +1,5 @@
-import React, { FormEvent, ReactElement } from 'react';
+import React, { ChangeEvent, MouseEvent, ReactElement } from 'react';
+import { Box, Button, Container, TextField, Typography } from '@material-ui/core';
 
 import { ExerciseGroup, Exercise } from '../../types/circuits';
 import { GroupView } from '../selector/GroupView';
@@ -37,31 +38,29 @@ export class CircuitForm extends React.Component<CircuitFormProps, CircuitFormSt
 		};
 	}
 
-	private onNameChange = (e: FormEvent<HTMLInputElement>): void => {
+	private onNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		e.preventDefault();
-		const name = e.currentTarget.value;
+		const name = e.target.value;
 		this.props.onChange({ name });
 	};
 
-	private onRepetitionsChange = (e: FormEvent<HTMLInputElement>): void => {
+	private onRepetitionsChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		e.preventDefault();
-		const repetitions = e.currentTarget.value;
+		const repetitions = parseInt(e.target.value);
 		this.props.onChange({ repetitions });
 	};
 
-	private onNewGroupNameChange = (e: FormEvent<HTMLInputElement>): void => {
+	private onNewGroupNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		e.preventDefault();
-		const newGroupName = e.currentTarget.value;
-		if (this.state.newGroupName !== newGroupName) {
-			this.setState(() => {
-				return {
-					newGroupName,
-				};
-			});
-		}
+		const newGroupName = e.target.value;
+		this.setState(() => {
+			return {
+				newGroupName,
+			};
+		});
 	};
 
-	private addGroup = (e: FormEvent<HTMLButtonElement>): void => {
+	private addGroup = (e: MouseEvent<HTMLButtonElement>): void => {
 		e.preventDefault();
 		const name = this.state.newGroupName;
 		const exercise = {
@@ -118,11 +117,17 @@ export class CircuitForm extends React.Component<CircuitFormProps, CircuitFormSt
 
 	public render(): ReactElement {
 		return (
-			<div>
-				<h1>{this.props.name ? this.props.name : 'New Circuit'}</h1>
-				<input type="text" id="name" placeholder="Name" value={this.props.name} onChange={this.onNameChange} autoFocus />
-				<label htmlFor="repetitions">Repetitions</label>
-				<input type="number" id="repetitions" placeholder="Repetitions" value={this.props.repetitions} onChange={this.onRepetitionsChange} />
+			<Container>
+				<Typography variant="h1">{this.props.name ? this.props.name : 'New Circuit'}</Typography>
+				<TextField label="Name" type="text" id="name" placeholder="Name" value={this.props.name} onChange={this.onNameChange} autoFocus />
+				<TextField
+					label="Repetitions"
+					type="number"
+					id="repetitions"
+					placeholder="Repetitions"
+					value={this.props.repetitions}
+					onChange={this.onRepetitionsChange}
+				/>
 				{this.props.exerciseGroups.map((group, index) => {
 					return this.state.selectedGroup === index ? (
 						<EditGroupView
@@ -144,11 +149,11 @@ export class CircuitForm extends React.Component<CircuitFormProps, CircuitFormSt
 						/>
 					);
 				})}
-				<div>
-					<input type="text" placeholder="Group" value={this.state.newGroupName} onChange={this.onNewGroupNameChange} />
-					<button onClick={this.addGroup}>Add Group</button>
-				</div>
-			</div>
+				<Box>
+					<TextField type="text" placeholder="Group" value={this.state.newGroupName} onChange={this.onNewGroupNameChange} />
+					<Button onClick={this.addGroup}>Add Group</Button>
+				</Box>
+			</Container>
 		);
 	}
 }
