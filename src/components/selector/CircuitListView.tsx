@@ -6,15 +6,16 @@ import { CircuitView } from './CircuitView';
 type CircuitListViewProps = {
 	circuits: Array<Circuit>;
 	onSelect: (circuit: Circuit) => void;
+	onEdit: (circuit: Circuit) => void;
 };
 
-export const CircuitListView = ({ circuits, onSelect }: CircuitListViewProps): ReactElement => {
+export const CircuitListView = ({ circuits, onSelect, onEdit }: CircuitListViewProps): ReactElement => {
 	return (
 		<Grid container spacing={2}>
 			{circuits.map((circuit) => {
 				return (
 					<Grid item>
-						<CircuitView key={circuit.id} circuit={circuit} onClick={onSelect} />
+						<CircuitView key={circuit.id} circuit={circuit} onSelect={onSelect} onEdit={onEdit} />
 					</Grid>
 				);
 			})}

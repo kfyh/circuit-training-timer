@@ -7,7 +7,8 @@ import { Card } from '@material-ui/core';
 
 type CircuitProps = {
 	circuit: Circuit;
-	onClick: (circuit: Circuit) => void;
+	onSelect: (circuit: Circuit) => void;
+	onEdit: (circuit: Circuit) => void;
 };
 
 export class CircuitView extends React.Component<CircuitProps, Record<string, never>> {
@@ -22,14 +23,19 @@ export class CircuitView extends React.Component<CircuitProps, Record<string, ne
 				<ButtonGroup>
 					<Button
 						onClick={() => {
-							this.props.onClick(this.props.circuit);
+							this.props.onSelect(this.props.circuit);
 						}}
 						variant="contained"
 						color="primary"
 					>
 						Select
 					</Button>
-					<Button onClick={() => {}} variant="contained">
+					<Button
+						onClick={() => {
+							this.props.onEdit(this.props.circuit);
+						}}
+						variant="contained"
+					>
 						Edit
 					</Button>
 				</ButtonGroup>

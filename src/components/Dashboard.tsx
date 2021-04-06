@@ -20,12 +20,16 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 		super(props);
 	}
 
-	private onCircuitClicked = (circuit: Circuit) => {
+	private onSelectCircuit = (circuit: Circuit) => {
 		this.props.selectCircuit(circuit);
 		this.props.history.push(`/timer/${circuit.id}`);
 	};
 
-	private onExerciseClicked = () => {};
+	private onEditCircuit = (circuit: Circuit) => {
+		this.props.history.push(`/editcircuit/${circuit.id}`);
+	};
+
+	private onSelectExercise = () => {};
 
 	private onEditExercise = (exercise: Exercise): void => {
 		this.props.history.push(`/editexercise/${exercise.id}`);
@@ -38,12 +42,12 @@ export class Dashboard extends React.Component<DashboardProps, Record<string, ne
 				<div id="circuits">
 					<h2>Circuits</h2>
 					<Link to="/addcircuit">New Circuit</Link>
-					<CircuitListView circuits={this.props.circuits} onSelect={this.onCircuitClicked} />
+					<CircuitListView circuits={this.props.circuits} onSelect={this.onSelectCircuit} onEdit={this.onEditCircuit} />
 				</div>
 				<div id="exercises">
 					<h2>Exercises</h2>
 					<Link to="/addexercise">Add Exercise</Link>
-					<ExerciseListView exercises={this.props.exercises} onSelect={this.onExerciseClicked} onEdit={this.onEditExercise} />
+					<ExerciseListView exercises={this.props.exercises} onSelect={this.onSelectExercise} onEdit={this.onEditExercise} />
 				</div>
 			</div>
 		);

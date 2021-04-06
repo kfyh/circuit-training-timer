@@ -89,6 +89,13 @@ export type FlattenedExercise = {
 	rest: number;
 };
 
+export const NullCircuit: Circuit = {
+	id: 'nullId',
+	name: 'null',
+	exerciseGroups: [],
+	repetitions: 1,
+};
+
 export const NullExercise: Exercise = {
 	id: '0',
 	name: 'null',
@@ -105,5 +112,5 @@ export const NullFlattenedExercise: FlattenedExercise = {
 	circuitName: 'null',
 	circuitRepIndex: 0,
 	circuitRepetition: 0,
-	rest: 0
+	rest: 0,
 };

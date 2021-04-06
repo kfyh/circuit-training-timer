@@ -3,7 +3,10 @@ import { Circuit, Exercise, ExerciseGroup } from '../types/circuits';
 export enum ACTION_TYPES {
 	ADD_EXERCISE = 'ADD_EXERCISE',
 	EDIT_EXERCISE = 'EDIT_EXERCISE',
+	DELETE_EXERCISE = 'DELETE_EXERCISE',
 	ADD_CIRCUIT = 'ADD_CIRCUIT',
+	EDIT_CIRCUIT = 'EDIT_CIRCUIT',
+	DELETE_CIRCUIT = 'DELETE_CIRCUIT',
 	SELECT_CIRCUIT = 'SELECT_CIRCUIT',
 }
 
@@ -58,6 +61,18 @@ export const selectorReducer = (state: ISelectorReducerState = selectorReducerDe
 				...state,
 				circuits,
 			};
+		case ACTION_TYPES.EDIT_CIRCUIT:
+			if (action.circuit) {
+				const edited = action.circuit;
+				return {
+					...state,
+					circuits: state.circuits.map<Circuit>((circuit) => {
+						return circuit.id === edited.id ? edited : circuit;
+					}),
+				};
+			} else {
+				return state;
+			}
 		case ACTION_TYPES.SELECT_CIRCUIT:
 			if (action.circuit === undefined) {
 				return state;

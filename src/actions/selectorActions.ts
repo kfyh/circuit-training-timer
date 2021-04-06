@@ -12,6 +12,11 @@ export const selectCircuit = (circuit: Circuit): ISelectorAction => ({
 	circuit,
 });
 
+export const editCircuit = (circuit: Circuit): ISelectorAction => ({
+	type: ACTION_TYPES.EDIT_CIRCUIT,
+	circuit,
+});
+
 export const addExercise = (exercise: Exercise | Array<Exercise>): ISelectorAction => {
 	let exercises: Array<Exercise> = [];
 	if (Array.isArray(exercise)) {
