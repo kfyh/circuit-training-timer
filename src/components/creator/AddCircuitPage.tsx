@@ -17,7 +17,7 @@ type AddCircuitPageProps = {
 type AddCircuitPageState = {
 	name: string;
 	exerciseGroups: Array<ExerciseGroup>;
-	repetitions: string;
+	repetitions: number;
 };
 
 export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCircuitPageState> {
@@ -26,7 +26,7 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 		this.state = {
 			name: 'new circuit',
 			exerciseGroups: [],
-			repetitions: '1',
+			repetitions: 1,
 		};
 	}
 
@@ -42,7 +42,7 @@ export class AddCircuitPage extends React.Component<AddCircuitPageProps, AddCirc
 			id: uuid(),
 			name: this.state.name,
 			exerciseGroups: this.state.exerciseGroups,
-			repetitions: parseInt(this.state.repetitions),
+			repetitions: this.state.repetitions,
 		};
 
 		this.props.addCircuit(circuit);

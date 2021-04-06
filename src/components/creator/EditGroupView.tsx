@@ -27,8 +27,8 @@ export type EditGroupViewData = {
 		count: number;
 		rest: number;
 	}>;
-	repetitions: string;
-	rest: string;
+	repetitions: number;
+	rest: number;
 };
 
 type EditGroupViewProps = {
@@ -61,8 +61,8 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 			formData: {
 				name: this.props.exerciseGroup.name,
 				exercises,
-				repetitions: '1',
-				rest: '0',
+				repetitions: 1,
+				rest: 0,
 			},
 			selectedAddExercise: '1',
 			selectedExercise: 0,
@@ -158,8 +158,6 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 		const value = e.currentTarget.value;
 		const repetitions = parseInt(value);
 
-		if (isNaN(repetitions)) return;
-
 		this.setState((state: EditGroupViewState) => {
 			const formData = {
 				...state.formData,
@@ -176,8 +174,6 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 		e.preventDefault();
 		const value = e.currentTarget.value;
 		const rest = parseInt(value);
-
-		if (isNaN(rest)) return;
 
 		this.setState((state: EditGroupViewState) => {
 			const formData = {
@@ -214,9 +210,9 @@ export class EditGroupView extends React.Component<EditGroupViewProps, EditGroup
 					<label htmlFor="name">Name:</label>
 					<input type="text" id="name" placeholder="Name" value={this.state.formData.name} onChange={this.onNameChange} autoFocus />
 					<label htmlFor="repetitions">Repetitions:</label>
-					<input type="text" id="repetitions" placeholder="Repetitions" value={this.state.formData.repetitions} onChange={this.onRepetitionsChange} />
+					<input type="number" id="repetitions" placeholder="Repetitions" value={this.state.formData.repetitions} onChange={this.onRepetitionsChange} />
 					<label htmlFor="rest">Rest:</label>
-					<input type="text" id="rest" placeholder="Rest" value={this.state.formData.rest} onChange={this.onRestChange} />
+					<input type="number" id="rest" placeholder="Rest" value={this.state.formData.rest} onChange={this.onRestChange} />
 					{this.state.formData.exercises.map((exercise, index) => {
 						return this.state.selectedExercise === index ? (
 							<GroupExerciseForm

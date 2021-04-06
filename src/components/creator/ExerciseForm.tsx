@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactElement } from 'react';
+import React, { FormEvent, ReactElement, useState } from 'react';
 import { Exercise } from 'src/types/circuits';
 
 export type ExerciseFormData = {
@@ -16,44 +16,40 @@ type ExerciseFormState = {
 	description: string;
 };
 
-export class ExerciseForm extends React.Component<ExerciseFormProps, ExerciseFormState> {
-	constructor(props: ExerciseFormProps) {
-		super(props);
-		if (props.exercise) {
-			this.state = {
-				name: props.exercise.name,
-				description: props.exercise.description ? props.exercise.description : '',
-			};
-		} else {
-			this.state = {
-				name: '',
-				description: '',
-			};
-		}
-	}
-
-	private onNameChange = (e: FormEvent<HTMLInputElement>) => {
-		const name = e.currentTarget.value;
-		this.setState(() => ({ name }));
-	};
-
-	private onDescriptionChange = (e: FormEvent<HTMLInputElement>) => {
-		const description = e.currentTarget.value;
-		this.setState(() => ({ description }));
-	};
-
-	public render(): ReactElement {
-		return (
-			<form
-				onSubmit={(e: FormEvent<HTMLFormElement>) => {
+export const ExerciseForm = (props: ExerciseFormProps): ReactElement => {
+	const initialName = props.exercise ? props.exercise.name : '';
+	const initialDescription = props.exercise ? (props.exercise.description ? props.exercise.description : '') : '';
+	const [name, setName] = useState(initialName);
+	const [description, setDescription] = useState(initialDescription);
+	return (
+		<div>
+			<input
+				type="text"
+				placeholder="Name"
+				value={name}
+				onChange={(e) => {
 					e.preventDefault();
-					this.props.onSubmit({ name: this.state.name, description: this.state.description });
+					setName(e.currentTarget.value);
+				}}
+				autoFocus
+			/>
+			<input
+				type="text"
+				placeholder="Description"
+				value={description}
+				onChange={(e) => {
+					e.preventDefault();
+					setDescription(e.currentTarget.value);
+				}}
+			/>
+			<button
+				onClick={(e: FormEvent<HTMLButtonElement>) => {
+					e.preventDefault();
+					props.onSubmit({ name, description });
 				}}
 			>
-				<input type="text" placeholder="Name" value={this.state.name} onChange={this.onNameChange} autoFocus />
-				<input type="text" placeholder="Description" value={this.state.description} onChange={this.onDescriptionChange} />
-				<button>Submit</button>
-			</form>
-		);
-	}
-}
+				Submit
+			</button>
+		</div>
+	);
+};

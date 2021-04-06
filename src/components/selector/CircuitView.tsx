@@ -1,6 +1,9 @@
 import React, { ReactElement } from 'react';
 import { Circuit } from '../../types/circuits';
 import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Typography from '@material-ui/core/Typography';
+import { Card } from '@material-ui/core';
 
 type CircuitProps = {
 	circuit: Circuit;
@@ -14,18 +17,23 @@ export class CircuitView extends React.Component<CircuitProps, Record<string, ne
 
 	public render(): ReactElement {
 		return (
-			<div>
-				{this.props.circuit.name}
-				<Button
-					onClick={(e) => {
-						e.preventDefault();
-						this.props.onClick(this.props.circuit);
-					}}
-					variant="contained"
-				>
-					Select
-				</Button>
-			</div>
+			<Card>
+				<Typography>{this.props.circuit.name}</Typography>
+				<ButtonGroup>
+					<Button
+						onClick={() => {
+							this.props.onClick(this.props.circuit);
+						}}
+						variant="contained"
+						color="primary"
+					>
+						Select
+					</Button>
+					<Button onClick={() => {}} variant="contained">
+						Edit
+					</Button>
+				</ButtonGroup>
+			</Card>
 		);
 	}
 }

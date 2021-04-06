@@ -7,12 +7,12 @@ import { EditGroupView, EditGroupViewData } from './EditGroupView';
 export type CircuitFormData = {
 	name?: string;
 	exerciseGroups?: Array<ExerciseGroup>;
-	repetitions?: string;
+	repetitions?: number;
 };
 type CircuitFormProps = {
 	name: string;
 	exerciseGroups: Array<ExerciseGroup>;
-	repetitions: string;
+	repetitions: number;
 	exercises: Array<Exercise>;
 	onChange: (state: CircuitFormData) => void;
 };
@@ -20,7 +20,7 @@ type CircuitFormProps = {
 type CircuitFormState = {
 	name: string;
 	exerciseGroups: Array<ExerciseGroup>;
-	repetitions: string;
+	repetitions: number;
 	selectedGroup: number;
 	newGroupName: string;
 };
@@ -84,8 +84,8 @@ export class CircuitForm extends React.Component<CircuitFormProps, CircuitFormSt
 		const editedGroup = {
 			name: data.name,
 			exercises: data.exercises,
-			repetitions: parseInt(data.repetitions),
-			rest: parseInt(data.rest),
+			repetitions: data.repetitions,
+			rest: data.rest,
 		};
 
 		const exerciseGroups = this.props.exerciseGroups.map((group, groupIndex) => {
@@ -122,7 +122,7 @@ export class CircuitForm extends React.Component<CircuitFormProps, CircuitFormSt
 				<h1>{this.props.name ? this.props.name : 'New Circuit'}</h1>
 				<input type="text" id="name" placeholder="Name" value={this.props.name} onChange={this.onNameChange} autoFocus />
 				<label htmlFor="repetitions">Repetitions</label>
-				<input type="text" id="repetitions" placeholder="Repetitions" value={this.props.repetitions} onChange={this.onRepetitionsChange} />
+				<input type="number" id="repetitions" placeholder="Repetitions" value={this.props.repetitions} onChange={this.onRepetitionsChange} />
 				{this.props.exerciseGroups.map((group, index) => {
 					return this.state.selectedGroup === index ? (
 						<EditGroupView

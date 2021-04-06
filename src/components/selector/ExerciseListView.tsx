@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core';
 import React, { ReactElement } from 'react';
 import { Exercise } from '../../types/circuits';
 import { ExerciseIconView } from './ExerciseIconView';
@@ -10,10 +11,14 @@ type ExerciseListViewProps = {
 
 export const ExerciseListView = ({ exercises, onSelect, onEdit }: ExerciseListViewProps): ReactElement => {
 	return (
-		<div>
+		<Grid container spacing={2}>
 			{exercises.map((exercise) => {
-				return <ExerciseIconView key={exercise.id} exercise={exercise} onSelect={onSelect} onEdit={onEdit} />;
+				return (
+					<Grid item>
+						<ExerciseIconView key={exercise.id} exercise={exercise} onSelect={onSelect} onEdit={onEdit} />
+					</Grid>
+				);
 			})}
-		</div>
+		</Grid>
 	);
 };

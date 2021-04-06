@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import Grid from '@material-ui/core/Grid';
 import { Circuit } from '../../types/circuits';
 import { CircuitView } from './CircuitView';
 
@@ -9,10 +10,14 @@ type CircuitListViewProps = {
 
 export const CircuitListView = ({ circuits, onSelect }: CircuitListViewProps): ReactElement => {
 	return (
-		<div>
+		<Grid container spacing={2}>
 			{circuits.map((circuit) => {
-				return <CircuitView key={circuit.id} circuit={circuit} onClick={onSelect} />;
+				return (
+					<Grid item>
+						<CircuitView key={circuit.id} circuit={circuit} onClick={onSelect} />
+					</Grid>
+				);
 			})}
-		</div>
+		</Grid>
 	);
 };

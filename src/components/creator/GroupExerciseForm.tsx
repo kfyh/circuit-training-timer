@@ -18,36 +18,32 @@ type GroupExerciseFormProps = {
 };
 
 type GroupExerciseFormState = {
-	duration: string;
-	count: string;
-	rest: string;
+	duration: number;
+	count: number;
+	rest: number;
 };
 
 export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, GroupExerciseFormState> {
 	constructor(props: GroupExerciseFormProps) {
 		super(props);
 		this.state = {
-			duration: props.duration.toString(),
-			count: props.count.toString(),
-			rest: props.rest.toString(),
+			duration: props.duration,
+			count: props.count,
+			rest: props.rest,
 		};
 	}
 
 	private onDurationChange = (e: FormEvent<HTMLInputElement>): void => {
 		const value = e.currentTarget.value;
 		const duration = Number.parseInt(value);
-		this.setState(() => ({ duration: value }));
-		if (!isNaN(duration)) {
-			this.props.onChange({
-				duration,
-			});
-		}
+		this.setState(() => ({ duration }));
+		this.props.onChange({ duration });
 	};
 
 	private onCountChange = (e: FormEvent<HTMLInputElement>): void => {
 		const value = e.currentTarget.value;
 		const count = Number.parseInt(value);
-		this.setState(() => ({ count: value }));
+		this.setState(() => ({ count }));
 		if (!isNaN(count)) {
 			this.props.onChange({
 				count,
@@ -58,7 +54,7 @@ export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, G
 	private onRestChange = (e: FormEvent<HTMLInputElement>): void => {
 		const value = e.currentTarget.value;
 		const rest = Number.parseInt(value);
-		this.setState(() => ({ rest: value }));
+		this.setState(() => ({ rest }));
 		if (!isNaN(rest)) {
 			this.props.onChange({
 				rest,
@@ -71,11 +67,11 @@ export class GroupExerciseForm extends React.Component<GroupExerciseFormProps, G
 			<div>
 				<p>{this.props.exerciseName}</p>
 				<label htmlFor="duration">Duration</label>
-				<input type="text" id="duration" placeholder="Duration" value={this.state.duration} onChange={this.onDurationChange} autoFocus />
+				<input type="number" id="duration" placeholder="Duration" value={this.state.duration} onChange={this.onDurationChange} autoFocus />
 				<label htmlFor="duration">Count</label>
-				<input type="text" id="count" placeholder="Count" value={this.state.count} onChange={this.onCountChange} />
+				<input type="number" id="count" placeholder="Count" value={this.state.count} onChange={this.onCountChange} />
 				<label htmlFor="duration">Rest</label>
-				<input type="text" id="rest" placeholder="Rest" value={this.state.rest} onChange={this.onRestChange} />
+				<input type="number" id="rest" placeholder="Rest" value={this.state.rest} onChange={this.onRestChange} />
 				<button onClick={this.props.onRemove}>Remove</button>
 			</div>
 		);
